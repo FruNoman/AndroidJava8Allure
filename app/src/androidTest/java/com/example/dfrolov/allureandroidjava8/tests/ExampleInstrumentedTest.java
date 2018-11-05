@@ -9,6 +9,7 @@ import com.example.dfrolov.allureandroidjava8.Some;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.RenesasRunner;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Severity;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.SeverityLevel;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.DisplayName;
 
 import org.junit.After;

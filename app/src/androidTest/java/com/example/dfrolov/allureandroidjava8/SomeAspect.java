@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import java.util.Optional;
@@ -85,23 +86,16 @@ public class SomeAspect {
         return proceed;
     }
 
-    @Around("@annotation(org.junit.Test)")
+
+    @Pointcut("execution(* com.example.dfrolov.allureandroidjava8.allure_implementation..*.*(..))")
+    public void removeAllure() {}
+
+    @Around("execution(* com.example.dfrolov.allureandroidjava8..*.*(..)) && !removeAllure()")
     public Object anotherStep(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-
-        final String uuid = UUID.randomUUID().toString();
-        final String name = "Test";
-
-        lifecycle = Allure.getLifecycle();
-
-        final StepResult result = new StepResult()
-                .withName(name)
-                .withStatus(Status.PASSED)
-                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
-        lifecycle.startStep(uuid, result);
+        System.out.println(" BEFORE METHOD "+methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName());
         final Object proceed = joinPoint.proceed();
-        lifecycle.stopStep(uuid);
-
+        System.out.println(" AFTER METHOD "+methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName());
         return proceed;
     }
 }
