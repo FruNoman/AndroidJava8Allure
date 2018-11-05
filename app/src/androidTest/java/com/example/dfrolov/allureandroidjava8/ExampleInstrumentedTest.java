@@ -32,7 +32,11 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
 
-        Allure.addAttachment("papa","mama");
+        Some some = new Some();
+        some.doSome();
+        Allure.addAttachment("SOME","FUCK");
+        some.doSome();
+        some.doSome();
 
     }
 }

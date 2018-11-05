@@ -47,7 +47,7 @@ public class AttachmentsAspects {
 
     /**
      */
-    @Pointcut("@annotation(io.qameta.allure.Attachment)")
+    @Pointcut("@annotation(com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Attachment)")
     public void withAttachmentAnnotation() {
         //pointcut body, should be empty
     }

@@ -76,6 +76,7 @@ public final class NamingUtils {
             }
             final Object child = on(object).get(parts[index]);
             return extractProperties(child, parts, index + 1);
+//            return null;
         }
         if (object instanceof Object[]) {
             return Arrays.toString((Object[]) object);
