@@ -9,4 +9,8 @@ public class Some {
         Allure.addAttachment("SOME","FUCK");
         System.out.println("FUCK !");
     }
+
+    public void enable(String doSome){
+        System.out.println(doSome);
+    }
 }

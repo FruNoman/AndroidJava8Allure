@@ -2,6 +2,7 @@ package com.example.dfrolov.allureandroidjava8;
 
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Allure;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.AllureLifecycle;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.Status;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.StepResult;
 
@@ -93,9 +94,18 @@ public class SomeAspect {
     @Around("execution(* com.example.dfrolov.allureandroidjava8..*.*(..)) && !removeAllure()")
     public Object anotherStep(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        System.out.println(" BEFORE METHOD "+methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName());
+
+        final String uuid = UUID.randomUUID().toString();
+        final String name = methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName();
+        final StepResult result = new StepResult()
+                .withName(name)
+                .withStatus(Status.PASSED)
+                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
+        Allure.getLifecycle().startStep(uuid, result);
+
         final Object proceed = joinPoint.proceed();
-        System.out.println(" AFTER METHOD "+methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName());
+        Allure.getLifecycle().stopStep(uuid);
         return proceed;
     }
+
 }

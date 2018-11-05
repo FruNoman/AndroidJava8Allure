@@ -50,7 +50,7 @@ public class ExampleInstrumentedTest {
         adapter.enable();
 
         some.doSome();
-        some.doSome();
+        some.enable("FUCK !!!");
         some.doSome();
     }
 
@@ -61,9 +61,8 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         adapter.enable();
-
         some.doSome();
-        some.doSome();
+        some.enable("FUCK !!!");
         some.doSome();
     }
 
