@@ -86,12 +86,13 @@ public class SomeAspect {
 
         return proceed;
     }
-
+    @Pointcut("initialization(*.new())")
+    public void android(){}
 
     @Pointcut("execution(* com.example.dfrolov.allureandroidjava8.allure_implementation..*.*(..))")
     public void removeAllure() {}
 
-    @Around("execution(* com.example.dfrolov.allureandroidjava8..*.*(..)) && !removeAllure()")
+    @Around("execution(* com.example.dfrolov.allureandroidjava8..*.*(..)) && !removeAllure() && execution(* *(..))")
     public Object anotherStep(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
@@ -103,7 +104,10 @@ public class SomeAspect {
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
         Allure.getLifecycle().startStep(uuid, result);
 
+
+
         final Object proceed = joinPoint.proceed();
+        Allure.addAttachment("assad","dasd");
         Allure.getLifecycle().stopStep(uuid);
         return proceed;
     }
