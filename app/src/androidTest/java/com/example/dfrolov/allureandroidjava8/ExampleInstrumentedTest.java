@@ -34,7 +34,6 @@ public class ExampleInstrumentedTest {
 
         Some some = new Some();
         some.doSome();
-        Allure.addAttachment("SOME","FUCK");
         some.doSome();
         some.doSome();
 

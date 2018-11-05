@@ -18,9 +18,9 @@ public class SomeAspect {
     public Object step(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
-        System.out.println(" BEFORE METHOD"+methodSignature.getMethod().getName());
+        System.out.println(" BEFORE METHOD "+methodSignature.getDeclaringType().getSimpleName()+"   "+methodSignature.getMethod().getName());
         Object proceed = joinPoint.proceed();
-        System.out.println(" AFTER METHOD"+methodSignature.getMethod().getName());
+        System.out.println(" AFTER METHOD "+methodSignature.getDeclaringType().getSimpleName()+"   "+methodSignature.getMethod().getName());
         return proceed;
     }
 }
