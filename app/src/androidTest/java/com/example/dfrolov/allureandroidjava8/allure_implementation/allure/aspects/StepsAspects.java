@@ -10,9 +10,12 @@ import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.S
 import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.StepResult;
 
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import java.util.Objects;
@@ -67,6 +70,165 @@ public class StepsAspects {
             getLifecycle().stopStep(uuid);
         }
     }
+
+
+    @Pointcut("call(* android.graphics..*.*(..))")
+    public void androidGraphics() {
+    }
+
+    @Pointcut("call(* android.app..*.*(..))")
+    public void androidApp() {
+    }
+
+    @Pointcut("call(* android.support..*.*(..))")
+    public void androidSupport() {
+    }
+
+    @Pointcut("call(* org.junit.Assert.*(..))")
+    public void assertSupport() {
+    }
+
+    @Pointcut("execution(* com.example.dfrolov.allureandroidjava8.allure_implementation..*.*(..))")
+    public void allureSupport() {
+    }
+
+    @Pointcut("execution(* com.example.dfrolov.allureandroidjava8..*.*(..))")
+    public void testsSupport() {
+    }
+
+    @Pointcut("@annotation(org.junit.Before)")
+    public void beforeAnnotation() {
+    }
+
+    @Pointcut("@annotation(org.junit.After)")
+    public void afterAnnotation() {
+    }
+    @Pointcut("@annotation(org.junit.Test)")
+    public void testAnnotation() {
+    }
+
+
+
+
+    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
+    @Around("call(* android..*.*(..)) && !androidGraphics() && !androidSupport() && !androidApp()")
+    public Object everyStepAndroid(final ProceedingJoinPoint joinPoint) throws Throwable {
+        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+
+        final String uuid = UUID.randomUUID().toString();
+        final String name = methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName();
+
+        final StepResult result = new StepResult()
+                .withName(name)
+                .withStatus(Status.PASSED)
+                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
+        getLifecycle().startStep(uuid, result);
+        try {
+            final Object proceed = joinPoint.proceed();
+            return proceed;
+        } catch (Throwable e) {
+            throw e;
+        } finally {
+            getLifecycle().stopStep(uuid);
+        }
+    }
+
+    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
+    @Around("assertSupport()")
+    public Object everyStep(final ProceedingJoinPoint joinPoint) throws Throwable {
+        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+
+        final String uuid = UUID.randomUUID().toString();
+        final String name = methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName();
+
+        final StepResult result = new StepResult()
+                .withName(name)
+                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
+        final Object proceed;
+        try {
+            proceed = joinPoint.proceed();
+            getLifecycle().startStep(uuid, result.withStatus(Status.PASSED));
+        } catch (Throwable e) {
+            getLifecycle().startStep(uuid, result.withStatus(Status.FAILED));
+            throw e;
+        }
+
+        finally {
+            getLifecycle().stopStep(uuid);
+        }
+        return proceed;
+    }
+
+    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
+    @Around("!allureSupport() && testsSupport() && !beforeAnnotation() && !afterAnnotation()")
+    public Object everyStepTest(final ProceedingJoinPoint joinPoint) throws Throwable {
+        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+
+        final String uuid = UUID.randomUUID().toString();
+        final String name = methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName();
+
+        final StepResult result = new StepResult()
+                .withName(name)
+                .withStatus(Status.PASSED)
+                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
+        getLifecycle().startStep(uuid, result);
+        try {
+            final Object proceed = joinPoint.proceed();
+            return proceed;
+        } catch (Throwable e) {
+            throw e;
+        } finally {
+            getLifecycle().stopStep(uuid);
+        }
+    }
+
+    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
+    @Around("beforeAnnotation()")
+    public Object beforeAnnotation(final ProceedingJoinPoint joinPoint) throws Throwable {
+        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+
+        final String uuid = UUID.randomUUID().toString();
+        final String name = "Before test";
+
+        final StepResult result = new StepResult()
+                .withName(name)
+                .withStatus(Status.PASSED)
+                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
+        getLifecycle().startStep(uuid, result);
+        try {
+            final Object proceed = joinPoint.proceed();
+            return proceed;
+        } catch (Throwable e) {
+            throw e;
+        } finally {
+            getLifecycle().stopStep(uuid);
+        }
+    }
+
+    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
+    @Around("afterAnnotation()")
+    public Object afterAnnotation(final ProceedingJoinPoint joinPoint) throws Throwable {
+        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+
+        final String uuid = UUID.randomUUID().toString();
+        final String name = "After test";
+
+        final StepResult result = new StepResult()
+                .withName(name)
+                .withStatus(Status.PASSED)
+                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
+        getLifecycle().startStep(uuid, result);
+        try {
+            final Object proceed = joinPoint.proceed();
+            return proceed;
+        } catch (Throwable e) {
+            throw e;
+        } finally {
+            getLifecycle().stopStep(uuid);
+        }
+    }
+
+
 
     /**
      * For tests only.

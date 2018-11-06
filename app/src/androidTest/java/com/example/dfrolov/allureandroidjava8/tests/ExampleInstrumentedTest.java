@@ -2,17 +2,16 @@ package com.example.dfrolov.allureandroidjava8.tests;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.net.wifi.WifiManager;
 import android.support.test.rule.GrantPermissionRule;
 
 
-import com.example.dfrolov.allureandroidjava8.Some;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.RenesasRunner;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Epic;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Feature;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Link;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Severity;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.SeverityLevel;
-import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Story;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.DisplayName;
 
@@ -74,8 +73,10 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         adapter.enable();
-        Assert.assertEquals(adapter.getName(),"papapa");
         some.doSome();
+        adapter.setName("PApa");
+        Assert.assertEquals(adapter.getName(),"papapa");
+
 
         some.enable("FUCK !!!");
         some.doSome();

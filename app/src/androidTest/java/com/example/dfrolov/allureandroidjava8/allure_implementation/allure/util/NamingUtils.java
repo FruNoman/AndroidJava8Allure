@@ -30,15 +30,16 @@ public final class NamingUtils {
     }
 
     public static String processNameTemplate(final String template, final Map<String, Object> params) {
-        final Matcher matcher = Pattern.compile("\\{([^}]*)}").matcher(template);
-        final StringBuffer sb = new StringBuffer();
-        while (matcher.find()) {
-            final String pattern = matcher.group(1);
-            final String replacement = processPattern(pattern, params).orElseGet(matcher::group);
-            matcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
-        }
-        matcher.appendTail(sb);
-        return sb.toString();
+//        final Matcher matcher = Pattern.compile("\\{([^}]*)}").matcher(template);
+//        final StringBuffer sb = new StringBuffer();
+//        while (matcher.find()) {
+//            final String pattern = matcher.group(1);
+//            final String replacement = processPattern(pattern, params).orElseGet(matcher::group);
+//            matcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
+//        }
+//        matcher.appendTail(sb);
+//        return sb.toString();
+        return template;
     }
 
     @SuppressWarnings("ReturnCount")

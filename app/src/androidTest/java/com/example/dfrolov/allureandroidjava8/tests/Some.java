@@ -1,4 +1,4 @@
-package com.example.dfrolov.allureandroidjava8;
+package com.example.dfrolov.allureandroidjava8.tests;
 
 import android.bluetooth.BluetoothAdapter;
 import android.graphics.Bitmap;
@@ -20,7 +20,7 @@ public class Some {
         System.out.println("FUCK !");
     }
 
-    @Step
+    @Step("FUCK")
     public void enable(String doSome){
         System.out.println(doSome);
     }
