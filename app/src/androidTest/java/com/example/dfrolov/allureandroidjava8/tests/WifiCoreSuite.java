@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.Objects;
 
 
-
 @Epic("Wifi core features")
 @DisplayName("Wifi suite")
 @RunWith(RenesasRunner.class)
@@ -67,13 +66,33 @@ public class WifiCoreSuite extends BaseTest {
         return false;
     }
 
+    public File downloadFile(String urlStr) throws IOException {
+        URL url = new URL(urlStr);
+        String name = urlStr.split("/")[urlStr.split("/").length - 1];
+        InputStream is = url.openStream();
+        DataInputStream dis = new DataInputStream(is);
+        byte[] buffer = new byte[1024];
+        int length;
+        File file = new File("/sdcard/test/" + name);
+        FileOutputStream fos = new FileOutputStream(file);
+        while ((length = dis.read(buffer)) > 0) {
+            fos.write(buffer, 0, length);
+        }
+        return file;
+    }
+
     public void waitState(NetworkInfo.DetailedState state) throws InterruptedException {
         long startTime = System.currentTimeMillis();
         NetworkInfo.DetailedState currentState = NetworkInfo.DetailedState.FAILED;
         while (currentState != state) {
             Thread.sleep(1000);
-            if (System.currentTimeMillis() - startTime > 10000) {
-                Assert.assertFalse("Wait for connection state " + state + " more than " + 10 + " seconds", true);
+            if (System.currentTimeMillis() - startTime > 15000) {
+                Assert.assertFalse("Wait for connection state "
+                        + state
+                        + " more than "
+                        + 10
+                        + " seconds",
+                        true);
             }
             NetworkInfo info = connectivityManager.getActiveNetworkInfo();
             if (info != null) {
@@ -88,8 +107,13 @@ public class WifiCoreSuite extends BaseTest {
         int currentState = adapter.getWifiState();
         while (currentState != state) {
             Thread.sleep(1000);
-            if (System.currentTimeMillis() - startTime > 10000) {
-                Assert.assertFalse("Wait for  state " + state + " more than " + (System.currentTimeMillis() - startTime) + " milseconds", true);
+            if (System.currentTimeMillis() - startTime > 15000) {
+                Assert.assertFalse("Wait for  state "
+                        + state
+                        + " more than "
+                        + (System.currentTimeMillis() - startTime)/1000
+                        + " seconds",
+                        true);
             }
             currentState = adapter.getWifiState();
         }
@@ -142,13 +166,14 @@ public class WifiCoreSuite extends BaseTest {
         waitState(WifiManager.WIFI_STATE_ENABLED);
         long startTime = System.currentTimeMillis();
         while (System.currentTimeMillis() - startTime < SHORT_TIME_WAIT) {
-            Assert.assertEquals("Wifi adapter state not STATE_ON", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+            Assert.assertEquals("Wifi adapter state not STATE_ON",
+                    WifiManager.WIFI_STATE_ENABLED,
+                    adapter.getWifiState());
             Thread.sleep(1000);
         }
         adapter.setWifiEnabled(false);
         waitState(WifiManager.WIFI_STATE_DISABLED);
     }
-
 
 
     @DisplayName("Wifi adapter switching many times ON/OFF test")
@@ -189,7 +214,7 @@ public class WifiCoreSuite extends BaseTest {
     @DisplayName("Wifi adapter connect to open network test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void wifi_6_connectOpenTest() throws IOException, InterruptedException {
+    public void wifi_6_connectOpenTest() throws InterruptedException {
         wifiConfig = WiFiConfigHelper.getOpenConfig(OPEN_NETWORK_SSID);
         int networkId = adapter.addNetwork(wifiConfig);
         adapter.enableNetwork(networkId, true);
@@ -220,13 +245,16 @@ public class WifiCoreSuite extends BaseTest {
         WifiConfiguration wifiConfigRNS_AES = WiFiConfigHelper.getWPA2config(NETWORK_SSID_AES, NETWORK_PASS);
         int networkRNS_TKIP = adapter.addNetwork(wifiConfigRNS_AES_TKIP);
         int networkRNS_AES = adapter.addNetwork(wifiConfigRNS_AES);
-        Assert.assertTrue("Networks not added to wifi adapter", adapter.getConfiguredNetworks().size() >= 2);
+        Assert.assertTrue("Networks not added to wifi adapter",
+                adapter.getConfiguredNetworks().size() >= 2);
         adapter.enableNetwork(networkRNS_TKIP, true);
         waitState(NetworkInfo.DetailedState.CONNECTED);
-        Assert.assertTrue("Wifi adapter has not expected network", adapter.getConnectionInfo().getSSID().contains(NETWORK_SSID));
+        Assert.assertTrue("Wifi adapter has not expected network",
+                adapter.getConnectionInfo().getSSID().contains(NETWORK_SSID));
         adapter.enableNetwork(networkRNS_AES, true);
         waitState(NetworkInfo.DetailedState.CONNECTED);
-        Assert.assertTrue("Wifi adapter has not expected network", adapter.getConnectionInfo().getSSID().contains(NETWORK_SSID_AES));
+        Assert.assertTrue("Wifi adapter has not expected network",
+                adapter.getConnectionInfo().getSSID().contains(NETWORK_SSID_AES));
     }
 
     @DisplayName("Wifi adapter ON/OFF check enabled network")
@@ -244,7 +272,7 @@ public class WifiCoreSuite extends BaseTest {
         waitState(NetworkInfo.DetailedState.CONNECTED);
     }
 
-    @DisplayName("Wifi adapter download small file test")
+    @DisplayName("Wifi adapter downloadFile small file test")
     @Severity(SeverityLevel.NORMAL)
     @Test
     public void wifi_10_downloadSmallFileTest() throws IOException, InterruptedException {
@@ -252,55 +280,27 @@ public class WifiCoreSuite extends BaseTest {
         int networkId = adapter.addNetwork(wifiConfig);
         adapter.enableNetwork(networkId, true);
         waitState(NetworkInfo.DetailedState.CONNECTED);
-        URL url = new URL(smallFileURL);
-        InputStream is = url.openStream();
-        DataInputStream dis = new DataInputStream(is);
-        byte[] buffer = new byte[1024];
-        int length;
-        File file = new File("/sdcard/test/test.jpg");
-        FileOutputStream fos = new FileOutputStream(file);
-        long startTime = System.currentTimeMillis();
-        while ((length = dis.read(buffer)) > 0) {
-            fos.write(buffer, 0, length);
-        }
-        Assert.assertTrue("File "+file.getPath()+" not downloads",file.exists());
+        File file = downloadFile(smallFileURL);
+        Assert.assertTrue("File " + file.getPath() + " not downloads", file.exists());
         file.delete();
     }
 
-    @DisplayName("Wifi adapter download medium file test")
+    @DisplayName("Wifi adapter downloadFile medium file test")
     @Severity(SeverityLevel.NORMAL)
     @Test
     public void wifi_11_downloadMediumFileTest() throws IOException, InterruptedException {
         wifiConfig = WiFiConfigHelper.getWPA2config(NETWORK_SSID, NETWORK_PASS);
         int networkId = adapter.addNetwork(wifiConfig);
-        boolean success = adapter.enableNetwork(networkId, true);
+        adapter.enableNetwork(networkId, true);
         waitState(NetworkInfo.DetailedState.CONNECTED);
-        URL url = new URL(mediumFileURL);
-        InputStream is = url.openStream();
-        DataInputStream dis = new DataInputStream(is);
-        byte[] buffer = new byte[1024];
-        int length;
-        File file = new File("/sdcard/test/test.bin");
-        FileOutputStream fos = new FileOutputStream(file);
-        long startTime = System.currentTimeMillis();
-        while ((length = dis.read(buffer)) > 0) {
-            fos.write(buffer, 0, length);
-        }
-        Assert.assertTrue("File "+file.getPath()+" not downloads",file.exists());
+        File file = downloadFile(mediumFileURL);
+        Assert.assertTrue("File " + file.getPath() + " not downloads", file.exists());
         file.delete();
     }
 
 
-
     @After
-    public void tearDown() throws InterruptedException {
-        List<WifiConfiguration> networks = adapter.getConfiguredNetworks();
-        if (networks != null) {
-            for (WifiConfiguration config : networks) {
-                adapter.removeNetwork(config.networkId);
-            }
-        }
-        Thread.sleep(4000);
+    public void afterWifiTests() throws InterruptedException {
         adapter.setWifiEnabled(false);
         waitState(WifiManager.WIFI_STATE_DISABLED);
     }
