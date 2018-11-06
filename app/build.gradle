@@ -43,6 +43,7 @@ dependencies {
 //    androidTestImplementation 'org.jooq:joor:0.9.8'
     compile 'org.jooq:joor-java-8:0.9.7'
     implementation 'javax.xml.bind:jaxb-api:2.2.4'
+    implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.7.0'
     implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.7.0'
     implementation 'org.apache.tika:tika-core:1.19.1'

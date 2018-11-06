@@ -2,6 +2,10 @@ package com.example.dfrolov.allureandroidjava8.allure_implementation.allure.aspe
 
 
 
+import android.app.Instrumentation;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.uiautomator.UiDevice;
+
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Allure;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.AllureLifecycle;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step;
@@ -18,6 +22,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,6 +50,11 @@ import static com.example.dfrolov.allureandroidjava8.allure_implementation.allur
 public class StepsAspects {
 
     private static AllureLifecycle lifecycle;
+
+    public String getCurrentTimeStamp() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+    }
+
 
     @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
     @Around("@annotation(com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step) && execution(* *(..))")
@@ -188,7 +203,7 @@ public class StepsAspects {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         final String uuid = UUID.randomUUID().toString();
-        final String name = "Before test";
+        final String name = "Before test method "+methodSignature.getMethod().getName();
 
         final StepResult result = new StepResult()
                 .withName(name)
@@ -211,7 +226,7 @@ public class StepsAspects {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         final String uuid = UUID.randomUUID().toString();
-        final String name = "After test";
+        final String name = "After test method "+methodSignature.getMethod().getName();
 
         final StepResult result = new StepResult()
                 .withName(name)
