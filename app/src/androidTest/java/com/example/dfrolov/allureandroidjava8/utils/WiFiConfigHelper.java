@@ -1,4 +1,4 @@
-package com.example.dfrolov.allureandroidjava8.receivers;
+package com.example.dfrolov.allureandroidjava8.utils;
 
 import android.net.wifi.WifiConfiguration;
 

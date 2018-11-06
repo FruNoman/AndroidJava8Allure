@@ -4,6 +4,32 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.archinamon.aspectj'
 
+String PROJECT_PACKAGE = (System.getProperty("user.dir"))
+String RESOURCES_PATH = (PROJECT_PACKAGE + "/app/src/test/resources")
+String GOOGLE_DRIVE_ID = "1BdVX8081UtDDtnkKaCC9ewoDWyxXMMC4"
+String DEVICE_SAMPLES_PATH = "/sdcard/samples/"
+String DEVICE_ALLURE_RESULTS_PATH = "/sdcard/allure-results"
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        google()
+    }
+    dependencies {
+        classpath 'commons-lang:commons-lang:2.6'
+        classpath files("libs/google-drive-0.0.1.jar")
+        classpath 'com.google.apis:google-api-services-drive:v3-rev105-1.23.0'
+        classpath 'com.google.api-client:google-api-client:1.25.0'
+        classpath 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+        classpath 'org.rauschig:jarchivelib:0.8.0'
+
+    }
+}
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -55,5 +81,49 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso.idling:idling-concurrent:3.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'
     androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
+}
 
+task downloadMediaSamplesToDevice {
+    println("Choose device $System.env.ANDROID_SERIAL")
+    File samplesFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples")
+    File tarFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples.tar.gz")
+
+    String clearAllure = ["adb", "shell", "rm", "-rf", DEVICE_ALLURE_RESULTS_PATH].execute().text
+    println("Clear " + DEVICE_ALLURE_RESULTS_PATH + " directory")
+    String devieSamples = ["adb", "shell", "ls", DEVICE_SAMPLES_PATH].execute().text
+    println("Check media samples on device " + devieSamples)
+    if (devieSamples.contains("No such file or directory") || devieSamples.equals("")) {
+        println("Check media samples on PC: " + samplesFile.exists())
+        if (!samplesFile.exists()) {
+            println("Download media samples from google disk...")
+            GoogleDrive.download(RESOURCES_PATH, GOOGLE_DRIVE_ID, tarFile)
+            GoogleDrive.uzip(tarFile, samplesFile)
+            tarFile.delete()
+        }
+        String result = ["adb", "push", samplesFile.getPath(), DEVICE_SAMPLES_PATH].execute().text
+
+    }
+}
+
+task runUnitTests(dependsOn: [':app:testDebugUnitTest']) {
+    description 'Run all unit tests'
+}
+
+task runAcceptanceTests(dependsOn: [':app:connectedAndroidTest']) {
+    description 'Run all acceptance tests.'
+}
+
+
+
+task jenkins
+runUnitTests.dependsOn runAcceptanceTests
+
+jenkins.dependsOn "assembleDebug"
+
+jenkins.finalizedBy runAcceptanceTests
+
+gradle.buildFinished {
+    println("After connectedInstrumentTest pull allure-results to " + PROJECT_PACKAGE + "/app/build")
+    final result = ["adb", "pull", DEVICE_ALLURE_RESULTS_PATH, PROJECT_PACKAGE + "/app/build"].execute().text
+    println(result)
 }

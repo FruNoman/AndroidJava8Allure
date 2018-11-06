@@ -17,6 +17,7 @@ import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.L
 import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.Status;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.StatusDetails;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.TestResult;
+import com.example.dfrolov.allureandroidjava8.utils.TestUtils;
 
 import org.junit.Ignore;
 import org.junit.runner.Description;
@@ -84,7 +85,7 @@ public class RenesasListener extends RunListener {
     @Override
     public void testRunFinished(final Result result) throws Exception {
         //do nothing
-
+        TestUtils.setDevicePropertyToAllure();
     }
 
     @Override

@@ -53,12 +53,12 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver {
                 Log.i("WIFI !!!!!!!!", s);
             }
             if (wifiCreds.length == 2) {
-                configuration = WiFiConfigHelper.getWPA2config(wifiCreds[0], wifiCreds[1]);
+//                configuration = WiFiConfigHelper.getWPA2config(wifiCreds[0], wifiCreds[1]);
             } else {
-                configuration = WiFiConfigHelper.getOpenConfig(wifiCreds[0]);
+//                configuration = WiFiConfigHelper.getOpenConfig(wifiCreds[0]);
             }
-            int networkId = wifiManager.addNetwork(configuration);
-            this.setResultData(String.valueOf(networkId));
+//            int networkId = wifiManager.addNetwork(configuration);
+//            this.setResultData(String.valueOf(networkId));
         }
 
         if (intent.getStringExtra("enableNetwork") != null) {
