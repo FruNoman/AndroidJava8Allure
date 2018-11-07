@@ -285,18 +285,18 @@ public class WifiCoreSuite extends BaseTest {
         file.delete();
     }
 
-    @DisplayName("Wifi adapter downloadFile medium file test")
-    @Severity(SeverityLevel.NORMAL)
-    @Test
-    public void wifi_11_downloadMediumFileTest() throws IOException, InterruptedException {
-        wifiConfig = WiFiConfigHelper.getWPA2config(NETWORK_SSID, NETWORK_PASS);
-        int networkId = adapter.addNetwork(wifiConfig);
-        adapter.enableNetwork(networkId, true);
-        waitState(NetworkInfo.DetailedState.CONNECTED);
-        File file = downloadFile(mediumFileURL);
-        Assert.assertTrue("File " + file.getPath() + " not downloads", file.exists());
-        file.delete();
-    }
+//    @DisplayName("Wifi adapter downloadFile medium file test")
+//    @Severity(SeverityLevel.NORMAL)
+//    @Test
+//    public void wifi_11_downloadMediumFileTest() throws IOException, InterruptedException {
+//        wifiConfig = WiFiConfigHelper.getWPA2config(NETWORK_SSID, NETWORK_PASS);
+//        int networkId = adapter.addNetwork(wifiConfig);
+//        adapter.enableNetwork(networkId, true);
+//        waitState(NetworkInfo.DetailedState.CONNECTED);
+//        File file = downloadFile(mediumFileURL);
+//        Assert.assertTrue("File " + file.getPath() + " not downloads", file.exists());
+//        file.delete();
+//    }
 
 
     @After

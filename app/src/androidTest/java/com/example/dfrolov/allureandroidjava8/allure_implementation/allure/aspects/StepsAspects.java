@@ -5,6 +5,7 @@ package com.example.dfrolov.allureandroidjava8.allure_implementation.allure.aspe
 import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.UiDevice;
+import android.util.Log;
 
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Allure;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.AllureLifecycle;
@@ -131,21 +132,27 @@ public class StepsAspects {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         final String uuid = UUID.randomUUID().toString();
-        final String name = methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName();
+        final String className = methodSignature.getDeclaringType().getSimpleName();
+        final String methodName = methodSignature.getMethod().getName();
+        final String name = className+" "+methodName;
 
         final StepResult result = new StepResult()
                 .withName(name)
                 .withStatus(Status.PASSED)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
-        getLifecycle().startStep(uuid, result);
+        final Object proceed;
         try {
-            final Object proceed = joinPoint.proceed();
-            return proceed;
+            proceed = joinPoint.proceed();
+            getLifecycle().startStep(uuid, result.withStatus(Status.PASSED));
         } catch (Throwable e) {
+            getLifecycle().startStep(uuid, result.withStatus(Status.FAILED));
             throw e;
-        } finally {
+        }
+
+        finally {
             getLifecycle().stopStep(uuid);
         }
+        return proceed;
     }
 
     @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
