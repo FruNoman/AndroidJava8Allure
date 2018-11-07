@@ -66,6 +66,7 @@ public class BluetoothCoreSuite extends BaseTest {
     }
 
 
+
     @Rule
     public GrantPermissionRule permissionsRules =
             GrantPermissionRule.grant(
@@ -194,7 +195,8 @@ public class BluetoothCoreSuite extends BaseTest {
     public void bluetooth_7_NameLanguagesTest() throws Exception {
         String bluetoothName = mDevice.executeShellCommand(TestUtils.RO_PRODUCT_BOARD);
         adapter.setName(bluetoothName);
-        String[] languageNames = {"キングフィッシャー",
+        String[] languageNames = {
+                "キングフィッシャー",
                 "翠鳥",
                 "الرفراف طائر",
                 "\uD83D\uDE02\uD83D\uDE0D\uD83C\uDF89\uD83D\uDC4D"};
