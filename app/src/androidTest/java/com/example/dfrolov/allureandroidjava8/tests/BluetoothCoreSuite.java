@@ -13,6 +13,7 @@ import com.example.dfrolov.allureandroidjava8.allure_implementation.RenesasRunne
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Epic;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Severity;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.SeverityLevel;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.DisplayName;
 import com.example.dfrolov.allureandroidjava8.receivers.BluetoothReceiver;
 import com.example.dfrolov.allureandroidjava8.utils.TestUtils;
@@ -40,7 +41,7 @@ import java.util.List;
 @RunWith(RenesasRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BluetoothCoreSuite extends BaseTest {
-    private BluetoothAdapter adapter;
+    public BluetoothAdapter adapter;
     private BluetoothReceiver receiver;
 
 
@@ -51,6 +52,7 @@ public class BluetoothCoreSuite extends BaseTest {
         }
     }
 
+    @Step
     public void waitForState(int state) throws InterruptedException {
         long startTime = System.currentTimeMillis();
         while (adapter.getState() != state) {

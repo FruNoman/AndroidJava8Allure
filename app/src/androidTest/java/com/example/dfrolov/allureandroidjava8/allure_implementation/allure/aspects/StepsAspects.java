@@ -74,11 +74,10 @@ public class StepsAspects {
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
-            getLifecycle().updateStep(uuid, s -> s.withStatus(Status.PASSED));
+            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
             return proceed;
         } catch (Throwable e) {
-            getLifecycle().updateStep(uuid, s -> s
-                    .withStatus(getStatusNot(e))
+            getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
                     .withStatusDetails(getStatusDetails(e).orElse(null)));
             throw e;
         } finally {
@@ -86,6 +85,8 @@ public class StepsAspects {
         }
     }
 
+    @Pointcut("@annotation(com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step) && execution(* *(..))")
+    public void allureStep(){}
 
     @Pointcut("call(* android.graphics..*.*(..))")
     public void androidGraphics() {
@@ -126,7 +127,7 @@ public class StepsAspects {
 
 
     @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
-    @Around("call(* android..*.*(..)) && !androidGraphics() && !androidSupport() && !androidApp()")
+    @Around("call(* android..*.*(..)) && !androidGraphics() && !androidSupport() && !androidApp() && !allureStep()")
     public Object everyStepAndroid(final ProceedingJoinPoint joinPoint) throws Throwable {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
@@ -135,13 +136,15 @@ public class StepsAspects {
 
         final StepResult result = new StepResult()
                 .withName(name)
-                .withStatus(Status.PASSED)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
+            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
             return proceed;
         } catch (Throwable e) {
+            getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
+                    .withStatusDetails(getStatusDetails(e).orElse(null)));
             throw e;
         } finally {
             getLifecycle().stopStep(uuid);
@@ -159,23 +162,22 @@ public class StepsAspects {
         final StepResult result = new StepResult()
                 .withName(name)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
-        final Object proceed;
+        getLifecycle().startStep(uuid, result);
         try {
-            proceed = joinPoint.proceed();
-            getLifecycle().startStep(uuid, result.withStatus(Status.PASSED));
+            final Object proceed = joinPoint.proceed();
+            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
+            return proceed;
         } catch (Throwable e) {
-            getLifecycle().startStep(uuid, result.withStatus(Status.FAILED));
+            getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
+                    .withStatusDetails(getStatusDetails(e).orElse(null)));
             throw e;
-        }
-
-        finally {
+        } finally {
             getLifecycle().stopStep(uuid);
         }
-        return proceed;
     }
 
     @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
-    @Around("!allureSupport() && testsSupport() && !beforeAnnotation() && !afterAnnotation()")
+    @Around("!allureSupport() && testsSupport() && !beforeAnnotation() && !afterAnnotation() && !allureStep()")
     public Object everyStepTest(final ProceedingJoinPoint joinPoint) throws Throwable {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
@@ -184,13 +186,15 @@ public class StepsAspects {
 
         final StepResult result = new StepResult()
                 .withName(name)
-                .withStatus(Status.PASSED)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
+            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
             return proceed;
         } catch (Throwable e) {
+            getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
+                    .withStatusDetails(getStatusDetails(e).orElse(null)));
             throw e;
         } finally {
             getLifecycle().stopStep(uuid);
@@ -207,13 +211,15 @@ public class StepsAspects {
 
         final StepResult result = new StepResult()
                 .withName(name)
-                .withStatus(Status.PASSED)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
+            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
             return proceed;
         } catch (Throwable e) {
+            getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
+                    .withStatusDetails(getStatusDetails(e).orElse(null)));
             throw e;
         } finally {
             getLifecycle().stopStep(uuid);
@@ -230,13 +236,15 @@ public class StepsAspects {
 
         final StepResult result = new StepResult()
                 .withName(name)
-                .withStatus(Status.PASSED)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
+            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
             return proceed;
         } catch (Throwable e) {
+            getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
+                    .withStatusDetails(getStatusDetails(e).orElse(null)));
             throw e;
         } finally {
             getLifecycle().stopStep(uuid);

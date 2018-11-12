@@ -231,6 +231,22 @@ public class AllureLifecycle {
         });
     }
 
+    public void updateStep1(final String uuid, final StepResult update) {
+        storage.getStep(uuid).ifPresent(step -> {
+            notifier.beforeStepUpdate(step);
+            notifier.afterStepUpdate(step);
+        });
+    }
+
+    public void updateStep1(final String uuid, final Consumer<StepResult> update) {
+        Optional<StepResult> result =  storage.getStep(uuid);
+        if(result.isPresent()) {
+            notifier.beforeStepUpdate(result.get());
+            update.accept(result.get());
+            notifier.afterStepUpdate(result.get());
+        }
+    }
+
     public void stopStep() {
         storage.getCurrentStep().ifPresent(this::stopStep);
     }
