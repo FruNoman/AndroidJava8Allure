@@ -44,7 +44,7 @@ public class BluetoothCoreSuite extends BaseTest {
     public BluetoothAdapter adapter;
     private BluetoothReceiver receiver;
 
-
+    @Step
     public void bluetoothForceEnable() {
         boolean success = true;
         if (!adapter.isEnabled()) {
@@ -97,7 +97,7 @@ public class BluetoothCoreSuite extends BaseTest {
         appContext.registerReceiver(receiver, filter);
 
         adapter = BluetoothAdapter.getDefaultAdapter();
-        adapter.enable();
+        bluetoothForceEnable();
         waitForState(BluetoothAdapter.STATE_ON);
     }
 
@@ -149,7 +149,7 @@ public class BluetoothCoreSuite extends BaseTest {
         Assert.assertTrue("No bluetooth devices found",
                 scanDevices.size() > 0);
     }
-
+//
     @DisplayName("Bluetooth adapter change name  test")
     @Severity(SeverityLevel.NORMAL)
     @Test
