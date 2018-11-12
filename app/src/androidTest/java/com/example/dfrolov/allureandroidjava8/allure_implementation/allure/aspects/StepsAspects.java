@@ -170,6 +170,7 @@ public class StepsAspects {
 
         final String uuid = UUID.randomUUID().toString();
         final String name = methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName();
+
         final StepResult result = new StepResult()
                 .withName(name)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
@@ -211,7 +212,8 @@ public class StepsAspects {
             return proceed;
         } catch (Throwable e) {
             getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
-                    .withStatusDetails(getStatusDetails(e).orElse(null)));
+                    .withStatusDetails(getStatusDetails(e).orElse(null)).withParameters(new Parameter().withName("Error trace")
+                    .withValue(e.toString())));
             throw e;
         } finally {
             getLifecycle().stopStep(uuid);
@@ -229,6 +231,7 @@ public class StepsAspects {
         final StepResult result = new StepResult()
                 .withName(name)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
+        String time = getCurrentTimeStamp();
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
@@ -239,6 +242,11 @@ public class StepsAspects {
                     .withStatusDetails(getStatusDetails(e).orElse(null)));
             throw e;
         } finally {
+            String logs = getLogs(time);
+            if(!logs.isEmpty()) {
+                getLifecycle().updateStep1(uuid, result.withParameters(new Parameter().withName("Logcat")
+                        .withValue(logs)));
+            }
             getLifecycle().stopStep(uuid);
         }
     }

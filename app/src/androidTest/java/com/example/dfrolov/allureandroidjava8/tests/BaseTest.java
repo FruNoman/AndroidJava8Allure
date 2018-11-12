@@ -67,8 +67,6 @@ public class BaseTest {
 
     @Before
     public void beforeEachTests() throws IOException {
-        String[] command = new String[] { "logcat", "-c" };
-        Runtime.getRuntime().exec(command);
         time = getCurrentTimeStamp();
     }
 
