@@ -18,9 +18,11 @@ import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.Displ
 import com.example.dfrolov.allureandroidjava8.utils.Samples;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,6 +32,7 @@ import java.io.IOException;
 @Epic("Media core features")
 @DisplayName("Media core suite")
 @RunWith(RenesasRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MediaCoreTest extends VideoTest {
 
     @Rule
@@ -64,63 +67,63 @@ public class MediaCoreTest extends VideoTest {
     @DisplayName("Image format .jpg I000287 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testJpegI000287() throws FileNotFoundException, SkipExeption {
+    public void image_1_jpegI000287test() throws FileNotFoundException, SkipExeption {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.jpgI000287.toString()));
     }
 
     @DisplayName("Image format .jpg I000309 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testJpgI000309() throws FileNotFoundException, SkipExeption {
+    public void image_2_jpgI000309test() throws FileNotFoundException, SkipExeption {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.jpgI000309.toString()));
     }
 
     @DisplayName("Image format .jpg I000311 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testJpgI000311() throws FileNotFoundException, SkipExeption {
+    public void image_3_jpgI000311test() throws FileNotFoundException, SkipExeption {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.jpgI000311.toString()));
     }
 
     @DisplayName("Image format .jpg I000001 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testJpgI000001() throws FileNotFoundException, SkipExeption {
+    public void image_4_jpgI000001test() throws FileNotFoundException, SkipExeption {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.jpgI000001.toString()));
     }
 
     @DisplayName("Image format .webp I000308 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testWebpI000308() throws FileNotFoundException, SkipExeption {
+    public void image_5_webpI000308test() throws FileNotFoundException, SkipExeption {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.webpI000308.toString()));
     }
 
     @DisplayName("Image format .gif I000021 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testGifI000021() throws FileNotFoundException, SkipExeption {
+    public void image_6_gifI000021test() throws FileNotFoundException, SkipExeption {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.gifI000021.toString()));
     }
 
     @DisplayName("Image format .bmp I000312 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testBmpI000312() throws FileNotFoundException, SkipExeption {
+    public void image_7_bmpI000312test() throws FileNotFoundException, SkipExeption {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.bmpI000312.toString()));
     }
 
     @DisplayName("Image format .png I000301 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testPngI0003012() throws FileNotFoundException, SkipExeption {
+    public void image_8_pngI0003012test() throws FileNotFoundException, SkipExeption {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.pngI000301.toString()));
     }
 
     @DisplayName("Image format .png I000313 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testPngI000313() throws FileNotFoundException, SkipExeption {
+    public void image_9_pngI000313test() throws FileNotFoundException, SkipExeption {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.pngI000313.toString()));
     }
 
@@ -181,62 +184,62 @@ public class MediaCoreTest extends VideoTest {
         testMedia(new File(VIDEO_FOLDER_PATH + Samples.mpeg4AV000022.toString()));
     }
 
-    @DisplayName("Video format h265AV001429 random actions test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void testRandomActionH263AV001248() throws Exception {
-        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h263AV001248.toString());
-    }
-
-    @DisplayName("Video format h264AV000869 random actions test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void testRandomActioH264AV000869() throws Exception {
-        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h264AV000869.toString());
-    }
-
-    @DisplayName("Video format h264AV001097 random actions test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void testRandomActioH264AV001097() throws Exception {
-        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h264AV001097.toString());
-    }
-
-    @DisplayName("Video format h264AV001187 random actions test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void testRandomActioH264AV001187() throws Exception {
-        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h264AV001187.toString());
-    }
-
-    @DisplayName("Video format h265AV001429 random actions test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void testRandomActioH265AV001429() throws Exception {
-
-        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h265AV001429.toString());
-    }
-
-    @DisplayName("Video format h265AV001430 random actions test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void testRandomActioH265AV001430() throws Exception {
-        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h265AV001430.toString());
-    }
-
-    @DisplayName("Video format h265AV001431 random actions test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void testRandomActioH265AV001431() throws Exception {
-        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h265AV001431.toString());
-    }
-
-    @DisplayName("Video format mpeg4AV000022 random actions test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void testRandomActioMPEG4AV000022() throws Exception {
-        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.mpeg4AV000022.toString());
-    }
+//    @DisplayName("Video format h265AV001429 random actions test")
+//    @Severity(SeverityLevel.BLOCKER)
+//    @Test
+//    public void testRandomActionH263AV001248() throws Exception {
+//        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h263AV001248.toString());
+//    }
+//
+//    @DisplayName("Video format h264AV000869 random actions test")
+//    @Severity(SeverityLevel.BLOCKER)
+//    @Test
+//    public void testRandomActioH264AV000869() throws Exception {
+//        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h264AV000869.toString());
+//    }
+//
+//    @DisplayName("Video format h264AV001097 random actions test")
+//    @Severity(SeverityLevel.BLOCKER)
+//    @Test
+//    public void testRandomActioH264AV001097() throws Exception {
+//        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h264AV001097.toString());
+//    }
+//
+//    @DisplayName("Video format h264AV001187 random actions test")
+//    @Severity(SeverityLevel.BLOCKER)
+//    @Test
+//    public void testRandomActioH264AV001187() throws Exception {
+//        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h264AV001187.toString());
+//    }
+//
+//    @DisplayName("Video format h265AV001429 random actions test")
+//    @Severity(SeverityLevel.BLOCKER)
+//    @Test
+//    public void testRandomActioH265AV001429() throws Exception {
+//
+//        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h265AV001429.toString());
+//    }
+//
+//    @DisplayName("Video format h265AV001430 random actions test")
+//    @Severity(SeverityLevel.BLOCKER)
+//    @Test
+//    public void testRandomActioH265AV001430() throws Exception {
+//        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h265AV001430.toString());
+//    }
+//
+//    @DisplayName("Video format h265AV001431 random actions test")
+//    @Severity(SeverityLevel.BLOCKER)
+//    @Test
+//    public void testRandomActioH265AV001431() throws Exception {
+//        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.h265AV001431.toString());
+//    }
+//
+//    @DisplayName("Video format mpeg4AV000022 random actions test")
+//    @Severity(SeverityLevel.BLOCKER)
+//    @Test
+//    public void testRandomActioMPEG4AV000022() throws Exception {
+//        testPlayerRandomAction(VIDEO_FOLDER_PATH + Samples.mpeg4AV000022.toString());
+//    }
 
 
 }
