@@ -86,6 +86,7 @@ public class RenesasListener extends RunListener {
     public void testRunFinished(final Result result) throws Exception {
         //do nothing
         TestUtils.setDevicePropertyToAllure();
+        TestUtils.setAllureCategories();
     }
 
     @Override

@@ -12,9 +12,11 @@ import android.widget.ImageView;
 
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Attachment;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.SecureRandom;
@@ -34,6 +36,31 @@ public class TestUtils {
 
     private static String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     public static SecureRandom rnd = new SecureRandom();
+
+    private static String categories ="[" +
+            "  {" +
+            "    \"name\": \"Ignored tests\"," +
+            "    \"matchedStatuses\": [\"skipped\"]" +
+            "    \"traceRegex\": \".*SkipExeption.*\", " +
+            "  }," +
+            "  {" +
+            "    \"name\": \"Infrastructure problems\"," +
+            "    \"matchedStatuses\": [\"broken\", \"failed\"]" +
+            "  }," +
+            "  {" +
+            "    \"name\": \"Outdated tests\"," +
+            "    \"matchedStatuses\": [\"broken\"]" +
+            "    \"traceRegex\": \".*FileNotFoundException.*\", " +
+            "  }," +
+            "  {" +
+            "    \"name\": \"Product defects\"," +
+            "    \"matchedStatuses\": [\"failed\"]" +
+            "  }," +
+            "  {" +
+            "    \"name\": \"Test defects\"," +
+            "    \"matchedStatuses\": [\"broken\"]" +
+            "  }" +
+            "]";
 
     public static boolean setDevicePropertyToAllure() {
         Properties prop = new Properties();
@@ -66,6 +93,30 @@ public class TestUtils {
             }
         }
         return success;
+    }
+
+    public static boolean setAllureCategories() {
+        BufferedWriter writer = null;
+        try
+        {
+            writer = new BufferedWriter( new FileWriter( "/sdcard/allure-results/categories.json"));
+            writer.write(categories);
+        }
+        catch ( IOException e)
+        {
+        }
+        finally
+        {
+            try
+            {
+                if ( writer != null)
+                    writer.close( );
+            }
+            catch ( IOException e)
+            {
+            }
+        }
+        return true;
     }
 
     public static boolean imageDisplayed(@NonNull ImageView view) {
