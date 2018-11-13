@@ -53,7 +53,7 @@ public class VideoTest extends BaseTest {
     public int mMediaInfoNotSeekableCount = 0;
     public int mMediaInfoMetdataUpdateCount = 0;
     public volatile boolean mMediaServerDied;
-    public static final int NUMBER_OF_PLAYER_RANDOM_ACTIONS   = 100000;
+    public static final int NUMBER_OF_PLAYER_RANDOM_ACTIONS   = 300;
     public volatile int mAction;
     public volatile int mParam;
 
