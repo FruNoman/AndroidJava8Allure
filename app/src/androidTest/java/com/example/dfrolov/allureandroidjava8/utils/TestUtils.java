@@ -1,5 +1,6 @@
 package com.example.dfrolov.allureandroidjava8.utils;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -99,6 +100,18 @@ public class TestUtils {
 
         }
         return bitmapdata;
+    }
+
+    public static void setTitle(final Activity act, final String topTitle) {
+        act.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String title=topTitle;
+                //if(lastSlash>0)	title+=fileName.substring(lastSlash);
+                //else title+=fileName;
+                act.setTitle(title);
+            }
+        });
     }
 
 }

@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(wifireceiver,wifiFilter);
     }
 
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
