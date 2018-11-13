@@ -1,7 +1,6 @@
 package com.example.dfrolov.allureandroidjava8.allure_implementation.allure.aspects;
 
 
-
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
@@ -51,13 +50,11 @@ import static com.example.dfrolov.allureandroidjava8.allure_implementation.allur
 
 /**
  * @author Dmitry Baev charlie@yandex-team.ru
- *         Date: 24.10.13
+ * Date: 24.10.13
  * @author sskorol (Sergey Korol)
  */
 @Aspect
 public class StepsAspects {
-
-
 
 
     private static AllureLifecycle lifecycle;
@@ -66,12 +63,10 @@ public class StepsAspects {
         return new SimpleDateFormat("MM-dd HH:mm:ss.SSS").format(new Date());
     }
 
-    public static String getLogs(String time){
+    public static String getLogs(String time) {
         StringBuilder builder = new StringBuilder();
-
         try {
-            String[] command = new String[] { "logcat","-t", time };
-
+            String[] command = new String[]{"logcat", "-t", time};
             Process process = Runtime.getRuntime().exec(command);
             process.waitFor();
             BufferedReader bufferedReader = new BufferedReader(
@@ -79,13 +74,9 @@ public class StepsAspects {
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-
-                builder.append(line+"\n");
-                //Code here
-
+                builder.append(line + "\n");
             }
         } catch (Exception ex) {
-
         }
         return builder.toString();
     }
@@ -95,13 +86,11 @@ public class StepsAspects {
     public Object step(final ProceedingJoinPoint joinPoint) throws Throwable {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         final Step step = methodSignature.getMethod().getAnnotation(Step.class);
-
         final String uuid = UUID.randomUUID().toString();
         final String name = Optional.of(step.value())
                 .filter(StringUtils::isNoneEmpty)
                 .map(value -> processNameTemplate(value, getParametersMap(methodSignature, joinPoint.getArgs())))
                 .orElse(methodSignature.getName());
-
         final StepResult result = new StepResult()
                 .withName(name)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
@@ -109,21 +98,22 @@ public class StepsAspects {
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
-            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
+            getLifecycle().updateStep1(uuid, result.withStatus(Status.PASSED));
             return proceed;
         } catch (Throwable e) {
             getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
                     .withStatusDetails(getStatusDetails(e).orElse(null)));
             throw e;
         } finally {
-            getLifecycle().updateStep1(uuid,result.withParameters(new Parameter().withName("Logcat")
+            getLifecycle().updateStep1(uuid, result.withParameters(new Parameter().withName("Logcat")
                     .withValue(getLogs(time))));
             getLifecycle().stopStep(uuid);
         }
     }
 
     @Pointcut("@annotation(com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step) && execution(* *(..))")
-    public void allureStep(){}
+    public void allureStep() {
+    }
 
     @Pointcut("call(* android.graphics..*.*(..))")
     public void androidGraphics() {
@@ -156,11 +146,10 @@ public class StepsAspects {
     @Pointcut("@annotation(org.junit.After)")
     public void afterAnnotation() {
     }
+
     @Pointcut("@annotation(org.junit.Test)")
     public void testAnnotation() {
     }
-
-
 
 
     @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
@@ -169,7 +158,7 @@ public class StepsAspects {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         final String uuid = UUID.randomUUID().toString();
-        final String name = methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName();
+        final String name = methodSignature.getDeclaringType().getSimpleName() + " " + methodSignature.getMethod().getName();
 
         final StepResult result = new StepResult()
                 .withName(name)
@@ -178,7 +167,7 @@ public class StepsAspects {
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
-            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
+            getLifecycle().updateStep1(uuid, result.withStatus(Status.PASSED));
             return proceed;
         } catch (Throwable e) {
             getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
@@ -186,8 +175,10 @@ public class StepsAspects {
             throw e;
         } finally {
             String logs = getLogs(time);
-            if(!logs.isEmpty()) {
-                getLifecycle().updateStep1(uuid, result.withParameters(new Parameter().withName("Logcat")
+            if (!logs.isEmpty()) {
+                getLifecycle().updateStep1(uuid,
+                        result.withParameters(new Parameter()
+                                .withName("Logcat")
                         .withValue(logs)));
             }
             getLifecycle().stopStep(uuid);
@@ -200,7 +191,7 @@ public class StepsAspects {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         final String uuid = UUID.randomUUID().toString();
-        final String name = methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName();
+        final String name = methodSignature.getDeclaringType().getSimpleName() + " " + methodSignature.getMethod().getName();
 
         final StepResult result = new StepResult()
                 .withName(name)
@@ -208,12 +199,11 @@ public class StepsAspects {
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
-            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
+            getLifecycle().updateStep1(uuid, result.withStatus(Status.PASSED));
             return proceed;
         } catch (Throwable e) {
             getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
-                    .withStatusDetails(getStatusDetails(e).orElse(null)).withParameters(new Parameter().withName("Error trace")
-                    .withValue(e.toString())));
+                    .withStatusDetails(getStatusDetails(e).orElse(null)));
             throw e;
         } finally {
             getLifecycle().stopStep(uuid);
@@ -226,7 +216,7 @@ public class StepsAspects {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         final String uuid = UUID.randomUUID().toString();
-        final String name = methodSignature.getDeclaringType().getSimpleName()+" "+methodSignature.getMethod().getName();
+        final String name = methodSignature.getDeclaringType().getSimpleName() + " " + methodSignature.getMethod().getName();
 
         final StepResult result = new StepResult()
                 .withName(name)
@@ -235,7 +225,7 @@ public class StepsAspects {
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
-            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
+            getLifecycle().updateStep1(uuid, result.withStatus(Status.PASSED));
             return proceed;
         } catch (Throwable e) {
             getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
@@ -243,7 +233,7 @@ public class StepsAspects {
             throw e;
         } finally {
             String logs = getLogs(time);
-            if(!logs.isEmpty()) {
+            if (!logs.isEmpty()) {
                 getLifecycle().updateStep1(uuid, result.withParameters(new Parameter().withName("Logcat")
                         .withValue(logs)));
             }
@@ -257,7 +247,7 @@ public class StepsAspects {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         final String uuid = UUID.randomUUID().toString();
-        final String name = "Before test ("+methodSignature.getMethod().getName()+")";
+        final String name = "Before test (" + methodSignature.getMethod().getName() + ")";
 
         final StepResult result = new StepResult()
                 .withName(name)
@@ -265,7 +255,7 @@ public class StepsAspects {
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
-            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
+            getLifecycle().updateStep1(uuid, result.withStatus(Status.PASSED));
             return proceed;
         } catch (Throwable e) {
             getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
@@ -282,7 +272,7 @@ public class StepsAspects {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         final String uuid = UUID.randomUUID().toString();
-        final String name = "After test ("+methodSignature.getMethod().getName()+")";
+        final String name = "After test (" + methodSignature.getMethod().getName() + ")";
 
         final StepResult result = new StepResult()
                 .withName(name)
@@ -290,7 +280,7 @@ public class StepsAspects {
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
-            getLifecycle().updateStep1(uuid,result.withStatus(Status.PASSED));
+            getLifecycle().updateStep1(uuid, result.withStatus(Status.PASSED));
             return proceed;
         } catch (Throwable e) {
             getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
@@ -300,7 +290,6 @@ public class StepsAspects {
             getLifecycle().stopStep(uuid);
         }
     }
-
 
 
     /**

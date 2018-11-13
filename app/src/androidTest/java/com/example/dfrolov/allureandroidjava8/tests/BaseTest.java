@@ -66,7 +66,9 @@ public class BaseTest {
             new ActivityTestRule<MainActivity>(MainActivity.class);
 
     @Before
-    public void beforeEachTests() throws IOException {
+    public void beforeEachTests() throws IOException, InterruptedException {
+        String[] command = new String[] { "logcat", "-c" };
+        Runtime.getRuntime().exec(command).waitFor();
         time = getCurrentTimeStamp();
     }
 
