@@ -5,12 +5,11 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.SurfaceView;
 import android.widget.ImageView;
 
 import com.example.dfrolov.allureandroidjava8.MainActivity;
-import com.example.dfrolov.allureandroidjava8.allure_implementation.exceptions.SkipExeption;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.exceptions.SkipException;
 import com.example.dfrolov.allureandroidjava8.utils.TestUtils;
 
 import org.junit.Assert;
@@ -57,9 +56,9 @@ public class VideoTest extends BaseTest {
     public volatile int mAction;
     public volatile int mParam;
 
-    public void testImage(File image) throws FileNotFoundException, SkipExeption {
+    public void testImage(File image) throws FileNotFoundException, SkipException {
         if (!image.exists()) {
-            throw new SkipExeption("Can't find sample " + image.getPath());
+            throw new SkipException("Can't find sample " + image.getPath());
         }
         TestUtils.setTitle(activity, image.getName());
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -158,9 +157,9 @@ public class VideoTest extends BaseTest {
         }
     };
 
-    public void testMedia(File video) throws SkipExeption, IOException {
+    public void testMedia(File video) throws SkipException, IOException {
         if (!video.exists()) {
-            throw new SkipExeption("Can't find sample " + video.getPath());
+            throw new SkipException("Can't find sample " + video.getPath());
         }
         int duration = 0;
         int waittime = 0;

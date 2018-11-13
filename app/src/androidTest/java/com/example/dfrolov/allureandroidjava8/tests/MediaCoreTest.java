@@ -13,7 +13,7 @@ import com.example.dfrolov.allureandroidjava8.allure_implementation.RenesasRunne
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Epic;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Severity;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.SeverityLevel;
-import com.example.dfrolov.allureandroidjava8.allure_implementation.exceptions.SkipExeption;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.exceptions.SkipException;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.DisplayName;
 import com.example.dfrolov.allureandroidjava8.utils.Samples;
 
@@ -48,7 +48,7 @@ public class MediaCoreTest extends VideoTest {
                     Manifest.permission.WAKE_LOCK);
 
     @Before
-    public void beforeMediaTests() throws SkipExeption {
+    public void beforeMediaTests() throws SkipException {
         activity = (MainActivity) activityActivityTestRle.getActivity();
         imageView = (ImageView) activity.findViewById(R.id.imageView);
         surfaceView = (SurfaceView) activity.findViewById(R.id.surfaceView);
@@ -59,7 +59,7 @@ public class MediaCoreTest extends VideoTest {
         File audioFolder = new File(AUDIO_FOLDER_PATH);
 
         if (!imageFolder.exists() || !videoFolder.exists() || !audioFolder.exists()) {
-            throw new SkipExeption("Can't find samples folders");
+            throw new SkipException("Can't find samples folders");
         }
 
     }
@@ -67,91 +67,91 @@ public class MediaCoreTest extends VideoTest {
     @DisplayName("Image format .jpg I000287 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void image_1_jpegI000287test() throws FileNotFoundException, SkipExeption {
+    public void image_1_jpegI000287test() throws FileNotFoundException, SkipException {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.jpgI000287.toString()));
     }
 
     @DisplayName("Image format .jpg I000309 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void image_2_jpgI000309test() throws FileNotFoundException, SkipExeption {
+    public void image_2_jpgI000309test() throws FileNotFoundException, SkipException {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.jpgI000309.toString()));
     }
 
     @DisplayName("Image format .jpg I000311 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void image_3_jpgI000311test() throws FileNotFoundException, SkipExeption {
+    public void image_3_jpgI000311test() throws FileNotFoundException, SkipException {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.jpgI000311.toString()));
     }
 
     @DisplayName("Image format .jpg I000001 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void image_4_jpgI000001test() throws FileNotFoundException, SkipExeption {
+    public void image_4_jpgI000001test() throws FileNotFoundException, SkipException {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.jpgI000001.toString()));
     }
 
     @DisplayName("Image format .webp I000308 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void image_5_webpI000308test() throws FileNotFoundException, SkipExeption {
+    public void image_5_webpI000308test() throws FileNotFoundException, SkipException {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.webpI000308.toString()));
     }
 
     @DisplayName("Image format .gif I000021 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void image_6_gifI000021test() throws FileNotFoundException, SkipExeption {
+    public void image_6_gifI000021test() throws FileNotFoundException, SkipException {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.gifI000021.toString()));
     }
 
     @DisplayName("Image format .bmp I000312 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void image_7_bmpI000312test() throws FileNotFoundException, SkipExeption {
+    public void image_7_bmpI000312test() throws FileNotFoundException, SkipException {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.bmpI000312.toString()));
     }
 
     @DisplayName("Image format .png I000301 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void image_8_pngI0003012test() throws FileNotFoundException, SkipExeption {
+    public void image_8_pngI0003012test() throws FileNotFoundException, SkipException {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.pngI000301.toString()));
     }
 
     @DisplayName("Image format .png I000313 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void image_9_pngI000313test() throws FileNotFoundException, SkipExeption {
+    public void image_9_pngI000313test() throws FileNotFoundException, SkipException {
         testImage(new File(IMAGE_FOLDER_PATH + Samples.pngI000313.toString()));
     }
 
     @DisplayName("Video format h263AV001248 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testH263AV001248() throws SkipExeption, IOException {
+    public void testH263AV001248() throws SkipException, IOException {
         testMedia(new File(VIDEO_FOLDER_PATH + Samples.h263AV001248.toString()));
     }
 
     @DisplayName("Video format h264AV000869 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testH264AV000869() throws SkipExeption, IOException {
+    public void testH264AV000869() throws SkipException, IOException {
         testMedia(new File(VIDEO_FOLDER_PATH + Samples.h264AV000869.toString()));
     }
 
     @DisplayName("Video format h264AV001097 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testH264AV001097() throws SkipExeption, IOException {
+    public void testH264AV001097() throws SkipException, IOException {
         testMedia(new File(VIDEO_FOLDER_PATH + Samples.h264AV001097.toString()));
     }
 
     @DisplayName("Video format h264AV001187 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testH264AV001187() throws SkipExeption, IOException {
+    public void testH264AV001187() throws SkipException, IOException {
         testMedia(new File(VIDEO_FOLDER_PATH + Samples.h264AV001187.toString()));
     }
 
@@ -159,28 +159,28 @@ public class MediaCoreTest extends VideoTest {
     @DisplayName("Video format h265AV001429 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testH265AV001429() throws SkipExeption, IOException {
+    public void testH265AV001429() throws SkipException, IOException {
         testMedia(new File(VIDEO_FOLDER_PATH + Samples.h265AV001429.toString()));
     }
 
     @DisplayName("Video format h265AV001430 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testH265AV001430() throws SkipExeption, IOException {
+    public void testH265AV001430() throws SkipException, IOException {
         testMedia(new File(VIDEO_FOLDER_PATH + Samples.h265AV001430.toString()));
     }
 
     @DisplayName("Video format h265AV001431 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testH265AV001431() throws SkipExeption, IOException {
+    public void testH265AV001431() throws SkipException, IOException {
         testMedia(new File(VIDEO_FOLDER_PATH + Samples.h265AV001431.toString()));
     }
 
     @DisplayName("Video format mpeg4AV000022 test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void testMPEG4AV000022() throws SkipExeption, IOException {
+    public void testMPEG4AV000022() throws SkipException, IOException {
         testMedia(new File(VIDEO_FOLDER_PATH + Samples.mpeg4AV000022.toString()));
     }
 

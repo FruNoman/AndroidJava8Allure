@@ -44,7 +44,6 @@ public class BluetoothCoreSuite extends BaseTest {
     public BluetoothAdapter adapter;
     private BluetoothReceiver receiver;
 
-    @Step
     public void bluetoothForceEnable() {
         boolean success = true;
         if (!adapter.isEnabled()) {
@@ -52,7 +51,6 @@ public class BluetoothCoreSuite extends BaseTest {
         }
     }
 
-    @Step
     public void waitForState(int state) throws InterruptedException {
         long startTime = System.currentTimeMillis();
         while (adapter.getState() != state) {

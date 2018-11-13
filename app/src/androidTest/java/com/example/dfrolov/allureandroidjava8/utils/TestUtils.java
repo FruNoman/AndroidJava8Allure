@@ -37,30 +37,26 @@ public class TestUtils {
     private static String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     public static SecureRandom rnd = new SecureRandom();
 
-    private static String categories ="[" +
-            "  {" +
-            "    \"name\": \"Ignored tests\"," +
-            "    \"matchedStatuses\": [\"skipped\"]" +
-            "    \"traceRegex\": \".*SkipExeption.*\", " +
-            "  }," +
-            "  {" +
-            "    \"name\": \"Infrastructure problems\"," +
-            "    \"matchedStatuses\": [\"broken\", \"failed\"]" +
-            "  }," +
-            "  {" +
-            "    \"name\": \"Outdated tests\"," +
-            "    \"matchedStatuses\": [\"broken\"]" +
-            "    \"traceRegex\": \".*FileNotFoundException.*\", " +
-            "  }," +
-            "  {" +
-            "    \"name\": \"Product defects\"," +
-            "    \"matchedStatuses\": [\"failed\"]" +
-            "  }," +
-            "  {" +
-            "    \"name\": \"Test defects\"," +
-            "    \"matchedStatuses\": [\"broken\"]" +
-            "  }" +
-            "]";
+    private static String categories ="{" +
+            "  \"name\": \"Ignored tests\"," +
+            "  \"messageRegex\": \".*SkipException.*\"," +
+            "  \"matchedStatuses\": [ \"skipped\" ]," +
+            "}," +
+            "{" +
+            "  \"name\": \"Infrastructure problems\"," +
+            "  \"traceRegex\": \".*RuntimeException.*\"," +
+            "  \"matchedStatuses\": [ \"broken\", \"failed\" ]" +
+            "}," +
+            "{" +
+            "  \"name\": \"Outdated tests\"," +
+            "  \"messageRegex\": \".*FileNotFound.*\"," +
+            "  \"matchedStatuses\": [ \"broken\" ]" +
+            "}," +
+            "{" +
+            "  \"name\": \"Passed\"," +
+            "  \"messageRegex\": \".*\"," +
+            "  \"matchedStatuses\": [ \"passed\" ]" +
+            "}";
 
     public static boolean setDevicePropertyToAllure() {
         Properties prop = new Properties();
