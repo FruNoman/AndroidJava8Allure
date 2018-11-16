@@ -126,47 +126,48 @@ public class MediaPlayerAdvanced implements
         long seed = System.currentTimeMillis();
         Random random = new Random(seed);
         int mAction = (int) (random.nextInt() % 12);
-        switch (mAction) {
-            case 0:
-                mediaPlayer.getCurrentPosition();
-                break;
-            case 1:
-                mediaPlayer.getDuration();
-                break;
-            case 2:
-                mediaPlayer.getVideoHeight();
-                break;
-            case 3:
-                mediaPlayer.getVideoWidth();
-                break;
-            case 4:
-                mediaPlayer.isPlaying();
-                break;
-            case 5:
-                mediaPlayer.pause();
-                break;
-            case 6:
+        try {
+            switch (mAction) {
+                case 0:
+                    mediaPlayer.getCurrentPosition();
+                    break;
+                case 1:
+                    mediaPlayer.getDuration();
+                    break;
+                case 2:
+                    mediaPlayer.getVideoHeight();
+                    break;
+                case 3:
+                    mediaPlayer.getVideoWidth();
+                    break;
+                case 4:
+                    mediaPlayer.isPlaying();
+                    break;
+                case 5:
+                    mediaPlayer.pause();
+                    break;
+                case 6:
 //                    mediaPlayer.prepareAsync();
-                break;
-            case 7:
-                int lastSeek = randomSeekTo(mediaPlayer);
-                SystemClock.sleep(2000);
-                int currentSeek = mediaPlayer.getCurrentPosition();
-                Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
-                break;
-            case 8:
-                mediaPlayer.setLooping((random.nextInt() % 1000000) % 2 == 0);
-                break;
-            case 9:
-                mediaPlayer.setVolume(((random.nextInt() % 1000000) % 1000) / 500.0f,
-                        ((random.nextInt() % 1000000) / 1000) / 500.0f);
-                break;
-            case 10:
-                mediaPlayer.start();
-                break;
-            case 11:
+                    break;
+                case 7:
+                    int lastSeek = randomSeekTo(mediaPlayer);
+                    break;
+                case 8:
+                    mediaPlayer.setLooping((random.nextInt() % 1000000) % 2 == 0);
+                    break;
+                case 9:
+                    mediaPlayer.setVolume(((random.nextInt() % 1000000) % 1000) / 500.0f,
+                            ((random.nextInt() % 1000000) / 1000) / 500.0f);
+                    break;
+                case 10:
+                    mediaPlayer.start();
+                    break;
+                case 11:
 //                    Thread.sleep((random.nextInt() % 20));
-                break;
+                    break;
+            }
+        }catch (Exception e){
+            Assert.assertTrue(e.toString(),false);
         }
     }
 

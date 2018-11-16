@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public SurfaceView surfaceView;
     public BluetoothBroadcastReceiver receiver;
     public WiFiBroadcastReceiver wifireceiver;
-
+    public boolean activityVisible;
     public void setImageView(final Bitmap bitmap){
         runOnUiThread(new Runnable() {
             @Override
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         imageView = (ImageView) findViewById(R.id.imageView);
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
-
+        activityVisible = true;
         receiver = new BluetoothBroadcastReceiver();
         wifireceiver = new WiFiBroadcastReceiver();
 
@@ -73,8 +73,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        activityVisible = false;
         unregisterReceiver(receiver);
         unregisterReceiver(wifireceiver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        activityVisible = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        activityVisible = false;
     }
 
 }

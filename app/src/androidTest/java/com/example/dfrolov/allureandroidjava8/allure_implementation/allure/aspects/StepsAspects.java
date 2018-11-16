@@ -164,7 +164,7 @@ public class StepsAspects {
                 .withName(name)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
 //        String time = getCurrentTimeStamp();
-        System.out.println(name);
+//        System.out.println(name);
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
@@ -223,7 +223,7 @@ public class StepsAspects {
                 .withName(name)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
         String time = getCurrentTimeStamp();
-        System.out.println(name);
+//        System.out.println(name);
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
