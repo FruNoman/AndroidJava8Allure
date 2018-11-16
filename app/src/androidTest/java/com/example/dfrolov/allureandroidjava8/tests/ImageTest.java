@@ -1,8 +1,10 @@
 package com.example.dfrolov.allureandroidjava8.tests;
 
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.SystemClock;
+import android.support.test.rule.GrantPermissionRule;
 import android.widget.ImageView;
 
 import com.example.dfrolov.allureandroidjava8.MainActivity;
@@ -15,6 +17,7 @@ import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.Displ
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -43,6 +46,18 @@ public class ImageTest extends BaseTest {
     protected BitmapFactory.Options options;
     protected ImageView imageView;
     protected String IMAGE_FOLDER_PATH = "/sdcard/samples/image/";
+
+    @Rule
+    public GrantPermissionRule permissionsRules =
+            GrantPermissionRule.grant(
+                    Manifest.permission.BLUETOOTH_ADMIN,
+                    Manifest.permission.BLUETOOTH,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.WAKE_LOCK);
 
     @Before
     public void beforeVideoTests() throws SkipException {
