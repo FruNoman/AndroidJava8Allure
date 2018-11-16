@@ -163,7 +163,8 @@ public class StepsAspects {
         final StepResult result = new StepResult()
                 .withName(name)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
-        String time = getCurrentTimeStamp();
+//        String time = getCurrentTimeStamp();
+        System.out.println(name);
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
@@ -174,13 +175,13 @@ public class StepsAspects {
                     .withStatusDetails(getStatusDetails(e).orElse(null)));
             throw e;
         } finally {
-            String logs = getLogs(time);
-            if (!logs.isEmpty()) {
-                getLifecycle().updateStep1(uuid,
-                        result.withParameters(new Parameter()
-                                .withName("Logcat")
-                        .withValue(logs)));
-            }
+//            String logs = getLogs(time);
+//            if (!logs.isEmpty()) {
+//                getLifecycle().updateStep1(uuid,
+//                        result.withParameters(new Parameter()
+//                                .withName("Logcat")
+//                        .withValue(logs)));
+//            }
             getLifecycle().stopStep(uuid);
         }
     }
@@ -222,6 +223,7 @@ public class StepsAspects {
                 .withName(name)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
         String time = getCurrentTimeStamp();
+        System.out.println(name);
         getLifecycle().startStep(uuid, result);
         try {
             final Object proceed = joinPoint.proceed();
@@ -232,11 +234,11 @@ public class StepsAspects {
                     .withStatusDetails(getStatusDetails(e).orElse(null)));
             throw e;
         } finally {
-            String logs = getLogs(time);
-            if (!logs.isEmpty()) {
-                getLifecycle().updateStep1(uuid, result.withParameters(new Parameter().withName("Logcat")
-                        .withValue(logs)));
-            }
+//            String logs = getLogs(time);
+//            if (!logs.isEmpty()) {
+//                getLifecycle().updateStep1(uuid, result.withParameters(new Parameter().withName("Logcat")
+//                        .withValue(logs)));
+//            }
             getLifecycle().stopStep(uuid);
         }
     }

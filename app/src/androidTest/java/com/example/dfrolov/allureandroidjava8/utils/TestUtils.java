@@ -37,26 +37,7 @@ public class TestUtils {
     private static String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     public static SecureRandom rnd = new SecureRandom();
 
-    private static String categories ="{" +
-            "  \"name\": \"Ignored tests\"," +
-            "  \"messageRegex\": \".*SkipException.*\"," +
-            "  \"matchedStatuses\": [ \"skipped\" ]," +
-            "}," +
-            "{" +
-            "  \"name\": \"Infrastructure problems\"," +
-            "  \"traceRegex\": \".*RuntimeException.*\"," +
-            "  \"matchedStatuses\": [ \"broken\", \"failed\" ]" +
-            "}," +
-            "{" +
-            "  \"name\": \"Outdated tests\"," +
-            "  \"messageRegex\": \".*FileNotFound.*\"," +
-            "  \"matchedStatuses\": [ \"broken\" ]" +
-            "}," +
-            "{" +
-            "  \"name\": \"Passed\"," +
-            "  \"messageRegex\": \".*\"," +
-            "  \"matchedStatuses\": [ \"passed\" ]" +
-            "}";
+
 
     public static boolean setDevicePropertyToAllure() {
         Properties prop = new Properties();
@@ -91,29 +72,7 @@ public class TestUtils {
         return success;
     }
 
-    public static boolean setAllureCategories() {
-        BufferedWriter writer = null;
-        try
-        {
-            writer = new BufferedWriter( new FileWriter( "/sdcard/allure-results/categories.json"));
-            writer.write(categories);
-        }
-        catch ( IOException e)
-        {
-        }
-        finally
-        {
-            try
-            {
-                if ( writer != null)
-                    writer.close( );
-            }
-            catch ( IOException e)
-            {
-            }
-        }
-        return true;
-    }
+
 
     public static boolean imageDisplayed(@NonNull ImageView view) {
         Drawable drawable = view.getDrawable();
