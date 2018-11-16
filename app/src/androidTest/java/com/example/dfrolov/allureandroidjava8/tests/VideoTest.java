@@ -17,6 +17,7 @@ import com.example.dfrolov.allureandroidjava8.allure_implementation.exceptions.S
 import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.DisplayName;
 import com.example.dfrolov.allureandroidjava8.wrappers.MediaPlayerAdvanced;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -35,12 +36,8 @@ import java.io.IOException;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class VideoTest extends BaseTest {
     protected MainActivity activity;
-    protected BitmapFactory.Options options;
-    protected ImageView imageView;
     protected SurfaceView surfaceView;
-    protected String IMAGE_FOLDER_PATH = "/sdcard/samples/image/";
     protected String VIDEO_FOLDER_PATH = "/sdcard/samples/video/";
-    protected String AUDIO_FOLDER_PATH = "/sdcard/samples/audio/";
     protected MediaPlayerAdvanced mediaPlayerWrapper;
     private MediaPlayer mediaPlayer;
 
@@ -60,13 +57,7 @@ public class VideoTest extends BaseTest {
     @Before
     public void beforeVideoTests() throws SkipException {
         activity = (MainActivity) activityActivityTestRle.getActivity();
-        imageView = (ImageView) activity.findViewById(R.id.imageView);
         surfaceView = (SurfaceView) activity.findViewById(R.id.surfaceView);
-        options = new BitmapFactory.Options();
-
-        File imageFolder = new File(IMAGE_FOLDER_PATH);
-        File videoFolder = new File(VIDEO_FOLDER_PATH);
-        File audioFolder = new File(AUDIO_FOLDER_PATH);
 
         mediaPlayerWrapper = new MediaPlayerAdvanced();
         mediaPlayer = new MediaPlayer();
@@ -182,6 +173,11 @@ public class VideoTest extends BaseTest {
         Assert.assertTrue("Video "+video.getName()+" not playing",mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
         Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+    }
+
+    @After
+    public void afterVideoTest(){
+        mediaPlayer.reset();
     }
 
 }
