@@ -38,7 +38,7 @@ public class VideoStressTest extends BaseTest {
     protected String VIDEO_FOLDER_PATH = "/sdcard/samples/video/";
     protected MediaPlayerAdvanced mediaPlayerWrapper;
     private MediaPlayer mediaPlayer;
-    protected int NUMBER_OF_PLAYER_RANDOM_ACTIONS = 10000;
+    protected int NUMBER_OF_PLAYER_RANDOM_ACTIONS = 100;
 
     @Rule
     public GrantPermissionRule permissionsRules =
