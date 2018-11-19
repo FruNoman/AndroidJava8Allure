@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.test.rule.GrantPermissionRule;
 
@@ -72,8 +73,10 @@ public class WifiCoreSuite extends BaseTest {
         InputStream is = url.openStream();
         DataInputStream dis = new DataInputStream(is);
         byte[] buffer = new byte[1024];
-        int length;
-        File file = new File("/sdcard/test/" + name);
+        int length=0;
+        File directory = new File(Environment.getExternalStorageDirectory()+File.separator+"test");
+        directory.mkdirs();
+        File file = new File(Environment.getExternalStorageDirectory()+File.separator+"test"+File.separator + name);
         FileOutputStream fos = new FileOutputStream(file);
         while ((length = dis.read(buffer)) > 0) {
             fos.write(buffer, 0, length);
@@ -127,6 +130,7 @@ public class WifiCoreSuite extends BaseTest {
                     Manifest.permission.ACCESS_NETWORK_STATE,
                     Manifest.permission.CHANGE_NETWORK_STATE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.INTERNET);
 
@@ -285,18 +289,18 @@ public class WifiCoreSuite extends BaseTest {
         file.delete();
     }
 
-//    @DisplayName("Wifi adapter downloadFile medium file test")
-//    @Severity(SeverityLevel.NORMAL)
-//    @Test
-//    public void wifi_11_downloadMediumFileTest() throws IOException, InterruptedException {
-//        wifiConfig = WiFiConfigHelper.getWPA2config(NETWORK_SSID, NETWORK_PASS);
-//        int networkId = adapter.addNetwork(wifiConfig);
-//        adapter.enableNetwork(networkId, true);
-//        waitState(NetworkInfo.DetailedState.CONNECTED);
-//        File file = downloadFile(mediumFileURL);
-//        Assert.assertTrue("File " + file.getPath() + " not downloads", file.exists());
-//        file.delete();
-//    }
+    @DisplayName("Wifi adapter downloadFile medium file test")
+    @Severity(SeverityLevel.NORMAL)
+    @Test
+    public void wifi_11_downloadMediumFileTest() throws IOException, InterruptedException {
+        wifiConfig = WiFiConfigHelper.getWPA2config(NETWORK_SSID, NETWORK_PASS);
+        int networkId = adapter.addNetwork(wifiConfig);
+        adapter.enableNetwork(networkId, true);
+        waitState(NetworkInfo.DetailedState.CONNECTED);
+        File file = downloadFile(mediumFileURL);
+        Assert.assertTrue("File " + file.getPath() + " not downloads", file.exists());
+        file.delete();
+    }
 
 
     @After
