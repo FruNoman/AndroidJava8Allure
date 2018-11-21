@@ -34,10 +34,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 
 import static com.example.dfrolov.allureandroidjava8.allure_implementation.allure.util.AspectUtils.getParameters;
@@ -62,6 +64,7 @@ public class StepsAspects {
     public String getCurrentTimeStamp() {
         return new SimpleDateFormat("MM-dd HH:mm:ss.SSS").format(new Date());
     }
+
 
     public static String getLogs(String time) {
         StringBuilder builder = new StringBuilder();
@@ -158,10 +161,16 @@ public class StepsAspects {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         final String uuid = UUID.randomUUID().toString();
-        final String name = methodSignature.getDeclaringType().getSimpleName() + " " + methodSignature.getMethod().getName();
-
+        final String className = methodSignature.getDeclaringType().getSimpleName();
+        final String methodName =  methodSignature.getMethod().getName();
+        Pattern p = Pattern.compile("(?=\\p{Lu})");
+        String name = Arrays.asList(p.split(methodName)).toString()
+                .replace(","," ")
+                .replace("[","")
+                .replace("]","")
+                .toLowerCase();
         final StepResult result = new StepResult()
-                .withName(name)
+                .withName(className+" "+ name)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
 //        String time = getCurrentTimeStamp();
 //        System.out.println(name);
@@ -192,10 +201,16 @@ public class StepsAspects {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         final String uuid = UUID.randomUUID().toString();
-        final String name = methodSignature.getDeclaringType().getSimpleName() + " " + methodSignature.getMethod().getName();
-
+        final String className = "Check if ";
+        final String methodName =  methodSignature.getMethod().getName();
+        Pattern p = Pattern.compile("(?=\\p{Lu})");
+        String name = Arrays.asList(p.split(methodName)).toString()
+                .replace(","," ")
+                .replace("[","")
+                .replace("]","")
+                .toLowerCase();
         final StepResult result = new StepResult()
-                .withName(name)
+                .withName(className+" "+name)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
         getLifecycle().startStep(uuid, result);
         try {
@@ -217,10 +232,16 @@ public class StepsAspects {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         final String uuid = UUID.randomUUID().toString();
-        final String name = methodSignature.getDeclaringType().getSimpleName() + " " + methodSignature.getMethod().getName();
-
+        final String className = methodSignature.getDeclaringType().getSimpleName();
+        final String methodName =  methodSignature.getMethod().getName();
+        Pattern p = Pattern.compile("(?=\\p{Lu})");
+        String name = Arrays.asList(p.split(methodName)).toString()
+                .replace(","," ")
+                .replace("[","")
+                .replace("]","")
+                .toLowerCase();
         final StepResult result = new StepResult()
-                .withName(name)
+                .withName(className+" "+ name)
                 .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
         String time = getCurrentTimeStamp();
 //        System.out.println(name);
