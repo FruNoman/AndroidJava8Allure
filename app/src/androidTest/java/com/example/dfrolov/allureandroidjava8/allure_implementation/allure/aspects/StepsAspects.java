@@ -156,7 +156,7 @@ public class StepsAspects {
 
 
     @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
-    @Around("call(* android..*.*(..)) && !androidGraphics() && !androidSupport() && !androidApp() && !allureStep()")
+    @Around("call(* android..*.*(..)) && !androidGraphics() && !androidSupport() && !androidApp() && !allureStep() && !testAnnotation()")
     public Object everyStepAndroid(final ProceedingJoinPoint joinPoint) throws Throwable {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
@@ -227,7 +227,7 @@ public class StepsAspects {
     }
 
     @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
-    @Around("!allureSupport() && testsSupport() && !beforeAnnotation() && !afterAnnotation() && !allureStep()")
+    @Around("!allureSupport() && testsSupport() && !beforeAnnotation() && !afterAnnotation() && !allureStep() && !testAnnotation()")
     public Object everyStepTest(final ProceedingJoinPoint joinPoint) throws Throwable {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
@@ -296,6 +296,31 @@ public class StepsAspects {
 
         final String uuid = UUID.randomUUID().toString();
         final String name = "After test (" + methodSignature.getMethod().getName() + ")";
+
+        final StepResult result = new StepResult()
+                .withName(name)
+                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
+        getLifecycle().startStep(uuid, result);
+        try {
+            final Object proceed = joinPoint.proceed();
+            getLifecycle().updateStep1(uuid, result.withStatus(Status.PASSED));
+            return proceed;
+        } catch (Throwable e) {
+            getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
+                    .withStatusDetails(getStatusDetails(e).orElse(null)));
+            throw e;
+        } finally {
+            getLifecycle().stopStep(uuid);
+        }
+    }
+
+    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
+    @Around("testAnnotation()")
+    public Object testAnnotations(final ProceedingJoinPoint joinPoint) throws Throwable {
+        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+
+        final String uuid = UUID.randomUUID().toString();
+        final String name = "Test steps";
 
         final StepResult result = new StepResult()
                 .withName(name)

@@ -9,6 +9,7 @@ String RESOURCES_PATH = (PROJECT_PACKAGE + "/app/src/test/resources")
 String GOOGLE_DRIVE_ID = "1qwA4S3DTwqTGZTC0sqaPRBXCuReBiU17"
 String DEVICE_SAMPLES_PATH = "/sdcard/samples/"
 String DEVICE_ALLURE_RESULTS_PATH = "/sdcard/allure-results"
+String ALLURE = RESOURCES_PATH+"/allure/bin/allure"
 
 buildscript {
     repositories {
@@ -133,4 +134,6 @@ gradle.buildFinished {
     println("After connectedInstrumentTest pull allure-results to " + PROJECT_PACKAGE + "/app/build")
     final result = ["adb", "pull", DEVICE_ALLURE_RESULTS_PATH, PROJECT_PACKAGE + "/app/build"].execute().text
     println(result)
+    println("Generate report")
+    [ALLURE,"generate",PROJECT_PACKAGE + "/app/build/allure-results"].execute().text
 }
