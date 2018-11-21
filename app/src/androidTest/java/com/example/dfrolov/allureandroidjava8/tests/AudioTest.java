@@ -8,6 +8,8 @@ import android.view.SurfaceView;
 
 import com.example.dfrolov.allureandroidjava8.MainActivity;
 import com.example.dfrolov.allureandroidjava8.R;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.RenesasRunner;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Epic;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.exceptions.SkipException;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.DisplayName;
 import com.example.dfrolov.allureandroidjava8.wrappers.MediaPlayerAdvanced;
@@ -17,10 +19,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 
+@Epic("Audio features")
+@DisplayName("Media core suite")
+@RunWith(RenesasRunner.class)
 public class AudioTest extends BaseTest {
     protected MainActivity activity;
     protected SurfaceView surfaceView;
