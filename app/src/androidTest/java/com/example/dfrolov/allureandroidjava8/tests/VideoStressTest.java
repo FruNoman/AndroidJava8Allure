@@ -64,12 +64,12 @@ public class VideoStressTest extends BaseTest {
     @DisplayName("Stress Test video h263AV001248")
     @Test
     public void testStressH263AV001248() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h263AV001248);
+        File video = new File(VIDEO_FOLDER_PATH + h263AV001248);
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
 
     }
@@ -77,36 +77,36 @@ public class VideoStressTest extends BaseTest {
     @DisplayName("Stress Test video h264AV000869")
     @Test
     public void testStressH264AV000869() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h264AV000869);
+        File video = new File(VIDEO_FOLDER_PATH + h264AV000869);
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
     @DisplayName("Stress Test video h264AV001097")
     @Test
     public void testStressH264AV001097() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h264AV001097);
+        File video = new File(VIDEO_FOLDER_PATH + h264AV001097);
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
     @DisplayName("Stress Test video h264AV001187")
     @Test
     public void testStressH264AV001187() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h264AV001187);
+        File video = new File(VIDEO_FOLDER_PATH + h264AV001187);
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
@@ -114,12 +114,12 @@ public class VideoStressTest extends BaseTest {
     @DisplayName("Stress Test video h265AV001429")
     @Test
     public void testStressH265AV001429() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h265AV001429);
+        File video = new File(VIDEO_FOLDER_PATH + h265AV001429);
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
@@ -127,36 +127,37 @@ public class VideoStressTest extends BaseTest {
     @DisplayName("Stress Test video H263AV001248")
     @Test
     public void testStressH265AV001430() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h265AV001430);
+        File video = new File(VIDEO_FOLDER_PATH + h265AV001430);
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
     @DisplayName("Stress Test video h265AV001431")
     @Test
     public void testStressH265AV001431() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h265AV001431);
+        File video = new File(VIDEO_FOLDER_PATH + h265AV001431);
+
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
     @DisplayName("Stress Test video mpeg4AV000022")
     @Test
     public void testStressMPEG4AV000022() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+mpeg4AV000022);
+        File video = new File(VIDEO_FOLDER_PATH + mpeg4AV000022);
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
@@ -167,8 +168,8 @@ public class VideoStressTest extends BaseTest {
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 

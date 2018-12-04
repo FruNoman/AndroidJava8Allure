@@ -57,14 +57,13 @@ public class BluetoothCoreSuite extends BaseTest {
             Thread.sleep(1000);
             if (System.currentTimeMillis() - startTime > 10000) {
                 Assert.assertFalse("Wait for bluetooth adapter state "
-                        + state + " more than "
-                        + (System.currentTimeMillis() - startTime) / 1000
-                        + " seconds",
+                                + state + " more than "
+                                + (System.currentTimeMillis() - startTime) / 1000
+                                + " seconds",
                         true);
             }
         }
     }
-
 
 
     @Rule
@@ -147,7 +146,8 @@ public class BluetoothCoreSuite extends BaseTest {
         Assert.assertTrue("No bluetooth devices found",
                 scanDevices.size() > 0);
     }
-//
+
+    //
     @DisplayName("Bluetooth adapter change name  test")
     @Severity(SeverityLevel.NORMAL)
     @Test

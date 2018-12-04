@@ -102,11 +102,11 @@ public class BaseTest {
         return new SimpleDateFormat("MM-dd HH:mm:ss.SSS").format(new Date());
     }
 
-    public static String getLogs(String time){
+    public static String getLogs(String time) {
         StringBuilder builder = new StringBuilder();
 
         try {
-            String[] command = new String[] { "logcat", "-d","-t", time };
+            String[] command = new String[]{"logcat", "-d", "-t", time};
 
             Process process = Runtime.getRuntime().exec(command);
             process.waitFor();
@@ -116,7 +116,7 @@ public class BaseTest {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
 
-                builder.append(line+"\n");
+                builder.append(line + "\n");
                 //Code here
 
             }
@@ -132,7 +132,7 @@ public class BaseTest {
 
     @Before
     public void beforeEachTests() throws IOException, InterruptedException {
-        String[] command = new String[] { "logcat", "-c" };
+        String[] command = new String[]{"logcat", "-c"};
         Runtime.getRuntime().exec(command).waitFor();
         time = getCurrentTimeStamp();
     }
@@ -141,6 +141,6 @@ public class BaseTest {
     public void afterEachTests() throws IOException {
         mDevice.pressBack();
         String logcat = getLogs(time);
-        Allure.addAttachment("logcat",logcat);
+        Allure.addAttachment("logcat", logcat);
     }
 }

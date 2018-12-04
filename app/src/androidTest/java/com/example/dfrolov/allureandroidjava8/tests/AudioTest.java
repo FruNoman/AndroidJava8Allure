@@ -58,109 +58,109 @@ public class AudioTest extends BaseTest {
     @DisplayName("Test audio mp3A000001")
     @Test
     public void testMp3A000001() throws IOException, InterruptedException {
-        File video = new File(AUDIO_FOLDER_PATH+mp3A000001);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(AUDIO_FOLDER_PATH + mp3A000001);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Audio "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Audio " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test audio flacA000484")
     @Test
     public void testFlacA000484() throws IOException, InterruptedException {
-        File video = new File(AUDIO_FOLDER_PATH+flacA000484);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(AUDIO_FOLDER_PATH + flacA000484);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Audio "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Audio " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test audio wavA000354")
     @Test
     public void testWavA000354() throws IOException, InterruptedException {
-        File video = new File(AUDIO_FOLDER_PATH+wavA000354);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(AUDIO_FOLDER_PATH + wavA000354);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Audio "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Audio " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test audio aacA000157")
     @Test
     public void testAacA000157() throws IOException, InterruptedException {
-        File video = new File(AUDIO_FOLDER_PATH+aacA000157);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(AUDIO_FOLDER_PATH + aacA000157);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Audio "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Audio " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test audio sample3gpA000123")
     @Test
     public void testSample3gpA000123() throws IOException, InterruptedException {
-        File video = new File(AUDIO_FOLDER_PATH+sample3gpA000123);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(AUDIO_FOLDER_PATH + sample3gpA000123);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Audio "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Audio " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test audio oggA000480")
     @Test
     public void testOggA000480() throws IOException, InterruptedException {
-        File video = new File(AUDIO_FOLDER_PATH+oggA000480);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(AUDIO_FOLDER_PATH + oggA000480);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Audio "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Audio " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test audio mkaA000485")
     @Test
     public void testMkaA000485() throws IOException, InterruptedException {
-        File video = new File(AUDIO_FOLDER_PATH+mkaA000485);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(AUDIO_FOLDER_PATH + mkaA000485);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Audio "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Audio " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test audio mp4A000454")
     @Test
     public void testMp4A000454() throws IOException, InterruptedException {
-        File video = new File(AUDIO_FOLDER_PATH+mp4A000454);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(AUDIO_FOLDER_PATH + mp4A000454);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Audio "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Audio " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test audio amrA000443")
     @Test
     public void testAmrA000443() throws IOException, InterruptedException {
-        File video = new File(AUDIO_FOLDER_PATH+amrA000443);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(AUDIO_FOLDER_PATH + amrA000443);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Audio "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Audio " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @After

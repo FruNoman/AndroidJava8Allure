@@ -67,116 +67,116 @@ public class VideoTest extends BaseTest {
     @DisplayName("Test video h263AV001248")
     @Test
     public void testH263AV001248() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h263AV001248);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(VIDEO_FOLDER_PATH + h263AV001248);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Video "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Video " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
 
     }
 
     @DisplayName("Test video h264AV000869")
     @Test
     public void testH264AV000869() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h264AV000869);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(VIDEO_FOLDER_PATH + h264AV000869);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Video "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Video " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test video h264AV001097")
     @Test
     public void testH264AV001097() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h264AV001097);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(VIDEO_FOLDER_PATH + h264AV001097);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Video "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Video " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test video h264AV001187")
     @Test
     public void testH264AV001187() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h264AV001187);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(VIDEO_FOLDER_PATH + h264AV001187);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Video "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Video " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
 
     @DisplayName("Test video h265AV001429")
     @Test
     public void testH265AV001429() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h265AV001429);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(VIDEO_FOLDER_PATH + h265AV001429);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Video "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Video " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
 
     @DisplayName("Test video H263AV001248")
     @Test
     public void testH265AV001430() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h265AV001430);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(VIDEO_FOLDER_PATH + h265AV001430);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Video "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Video " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test video h265AV001431")
     @Test
     public void testH265AV001431() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+h265AV001431);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(VIDEO_FOLDER_PATH + h265AV001431);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Video "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Video " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test video mpeg4AV000022")
     @Test
     public void testMPEG4AV000022() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+mpeg4AV000022);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(VIDEO_FOLDER_PATH + mpeg4AV000022);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Video "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Video " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @DisplayName("Test video webmAV000962")
     @Test
     public void testWebmAV000962() throws IOException, InterruptedException {
-        File video = new File(VIDEO_FOLDER_PATH+webmAV000962);
-        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer,video,surfaceView);
+        File video = new File(VIDEO_FOLDER_PATH + webmAV000962);
+        mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         int lastSeek = mediaPlayerWrapper.randomSeekTo(mediaPlayer);
         SystemClock.sleep(4000);
-        Assert.assertTrue("Video "+video.getName()+" not playing",mediaPlayer.isPlaying());
+        Assert.assertTrue("Video " + video.getName() + " not playing", mediaPlayer.isPlaying());
         int currentSeek = mediaPlayer.getCurrentPosition();
-        Assert.assertTrue("Current position "+currentSeek+" lower last seek "+lastSeek,currentSeek>=lastSeek*0.8);
+        Assert.assertTrue("Current position " + currentSeek + " lower last seek " + lastSeek, currentSeek >= lastSeek * 0.8);
     }
 
     @After
-    public void afterVideoTest(){
+    public void afterVideoTest() {
         mediaPlayer.reset();
     }
 

@@ -73,10 +73,10 @@ public class WifiCoreSuite extends BaseTest {
         InputStream is = url.openStream();
         DataInputStream dis = new DataInputStream(is);
         byte[] buffer = new byte[1024];
-        int length=0;
-        File directory = new File(Environment.getExternalStorageDirectory()+File.separator+"test");
+        int length = 0;
+        File directory = new File(Environment.getExternalStorageDirectory() + File.separator + "test");
         directory.mkdirs();
-        File file = new File(Environment.getExternalStorageDirectory()+File.separator+"test"+File.separator + name);
+        File file = new File(Environment.getExternalStorageDirectory() + File.separator + "test" + File.separator + name);
         FileOutputStream fos = new FileOutputStream(file);
         while ((length = dis.read(buffer)) > 0) {
             fos.write(buffer, 0, length);
@@ -91,10 +91,10 @@ public class WifiCoreSuite extends BaseTest {
             Thread.sleep(1000);
             if (System.currentTimeMillis() - startTime > 15000) {
                 Assert.assertFalse("Wait for connection state "
-                        + state
-                        + " more than "
-                        + 10
-                        + " seconds",
+                                + state
+                                + " more than "
+                                + 10
+                                + " seconds",
                         true);
             }
             NetworkInfo info = connectivityManager.getActiveNetworkInfo();
@@ -112,10 +112,10 @@ public class WifiCoreSuite extends BaseTest {
             Thread.sleep(1000);
             if (System.currentTimeMillis() - startTime > 15000) {
                 Assert.assertFalse("Wait for  state "
-                        + state
-                        + " more than "
-                        + (System.currentTimeMillis() - startTime)/1000
-                        + " seconds",
+                                + state
+                                + " more than "
+                                + (System.currentTimeMillis() - startTime) / 1000
+                                + " seconds",
                         true);
             }
             currentState = adapter.getWifiState();

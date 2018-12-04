@@ -64,8 +64,8 @@ public class AudioStressTest extends BaseTest {
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
@@ -77,8 +77,8 @@ public class AudioStressTest extends BaseTest {
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
@@ -89,8 +89,8 @@ public class AudioStressTest extends BaseTest {
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
@@ -101,8 +101,8 @@ public class AudioStressTest extends BaseTest {
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
@@ -113,8 +113,8 @@ public class AudioStressTest extends BaseTest {
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
@@ -125,8 +125,8 @@ public class AudioStressTest extends BaseTest {
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
@@ -137,8 +137,8 @@ public class AudioStressTest extends BaseTest {
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
@@ -149,8 +149,8 @@ public class AudioStressTest extends BaseTest {
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
@@ -161,8 +161,8 @@ public class AudioStressTest extends BaseTest {
         mediaPlayer = mediaPlayerWrapper.playSample(mediaPlayer, video, surfaceView);
         for (int i = 0; i < NUMBER_OF_PLAYER_RANDOM_ACTIONS; i++) {
             mediaPlayerWrapper.randomAction(mediaPlayer);
-            Assert.assertNotNull("Media player is dying",mediaPlayer);
-            Assert.assertTrue("Activity is dying",activity.activityVisible);
+            Assert.assertNotNull("Media player is dying", mediaPlayer);
+            Assert.assertTrue("Activity is dying", activity.activityVisible);
         }
     }
 
