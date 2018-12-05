@@ -121,6 +121,52 @@ task runAcceptanceTests(dependsOn: [':app:connectedAndroidTest']) {
     description 'Run all acceptance tests.'
 }
 
+task wifi(type: GradleBuild) {
+    tasks = ['connectedAndroidTest']
+    startParameter.projectProperties = ['android.testInstrumentationRunnerArguments.class': 'com.example.dfrolov.allureandroidjava8.tests.WifiCoreSuite']
+}
+
+task bluetooth(type: GradleBuild) {
+    tasks = ['connectedAndroidTest']
+    startParameter.projectProperties = ['android.testInstrumentationRunnerArguments.class': 'com.example.dfrolov.allureandroidjava8.tests.BluetoothCoreSuite']
+}
+
+task media
+
+task videoTest(type: GradleBuild) {
+    tasks = ['connectedAndroidTest']
+    startParameter.projectProperties = ['android.testInstrumentationRunnerArguments.class': 'com.example.dfrolov.allureandroidjava8.tests.VideoTest']
+}
+
+task videoStressTest(type: GradleBuild) {
+    tasks = ['connectedAndroidTest']
+    startParameter.projectProperties = ['android.testInstrumentationRunnerArguments.class': 'com.example.dfrolov.allureandroidjava8.tests.VideoStressTest']
+}
+
+task audioStressTest(type: GradleBuild) {
+    tasks = ['connectedAndroidTest']
+    startParameter.projectProperties = ['android.testInstrumentationRunnerArguments.class': 'com.example.dfrolov.allureandroidjava8.tests.AudioStressTest']
+}
+
+task audioTest(type: GradleBuild) {
+    tasks = ['connectedAndroidTest']
+    startParameter.projectProperties = ['android.testInstrumentationRunnerArguments.class': 'com.example.dfrolov.allureandroidjava8.tests.AudioTest']
+}
+
+task imageTest(type: GradleBuild) {
+    tasks = ['connectedAndroidTest']
+    startParameter.projectProperties = ['android.testInstrumentationRunnerArguments.class': 'com.example.dfrolov.allureandroidjava8.tests.ImageTest']
+}
+
+audioTest.finalizedBy 'imageTest'
+
+audioStressTest.finalizedBy 'audioTest'
+
+videoStressTest.finalizedBy 'audioStressTest'
+
+videoTest.finalizedBy 'videoStressTest'
+
+media.finalizedBy "videoTest"
 
 task jenkins
 
@@ -129,6 +175,9 @@ runUnitTests.dependsOn runAcceptanceTests
 jenkins.dependsOn "assembleDebug"
 
 jenkins.finalizedBy runUnitTests
+
+
+
 
 gradle.buildFinished {
     println("After connectedInstrumentTest pull allure-results to " + PROJECT_PACKAGE + "/app/build")
