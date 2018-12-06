@@ -91,13 +91,9 @@ dependencies {
 }
 
 
-tasks.withType(JavaCompile) {
-    gradle.properties.put("org.gradle.java.home","$System.env.JAVA_HOME")
-}
+
 
 task downloadMediaSamplesToDevice {
-    gradle.properties.put("org.gradle.java.home","$System.env.JAVA_HOME")
-    println("JAVA !!!! device $System.env.JAVA_HOME")
     println("Choose device $System.env.ANDROID_SERIAL")
     File samplesFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples")
     File tarFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples.tar.gz")
