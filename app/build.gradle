@@ -91,6 +91,11 @@ dependencies {
 }
 
 
+tasks.withType(JavaCompile) {
+    options.fork = true
+    options.forkOptions.executable = "$System.env.JAVA_HOME"
+}
+
 task downloadMediaSamplesToDevice {
     println("Choose device $System.env.ANDROID_SERIAL")
     File samplesFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples")
