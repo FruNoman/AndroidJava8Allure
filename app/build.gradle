@@ -104,6 +104,7 @@ task downloadMediaSamplesToDevice {
     properties1.setProperty('org.gradle.java.home',"$System.env.JAVA_HOME")
     println("Choose device $System.env.ANDROID_SERIAL")
     println("Set android home $System.env.ANDROID_HOME")
+    println("Set java home $System.env.JAVA_HOME")
     File samplesFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples")
     File tarFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples.tar.gz")
 
