@@ -96,12 +96,6 @@ tasks.withType(JavaCompile) {
 }
 
 task downloadMediaSamplesToDevice {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    properties.setProperty('sdk.dir',"$System.env.ANDROID_HOME")
-    Properties properties1 = new Properties()
-    properties1.load(project.rootProject.file('gradle.properties').newDataInputStream())
-    properties1.setProperty('org.gradle.java.home',"$System.env.JAVA_HOME")
     println("Choose device $System.env.ANDROID_SERIAL")
     println("Set android home $System.env.ANDROID_HOME")
     println("Set java home $System.env.JAVA_HOME")
