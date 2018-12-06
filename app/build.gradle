@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'me.tatarka.retrolambda'
 
-String AN = System.getProperty("ANDROID_HOME")
+
 String PROJECT_PACKAGE = (System.getProperty("user.dir"))
 String RESOURCES_PATH = (PROJECT_PACKAGE + "/app/src/test/resources")
 String GOOGLE_DRIVE_ID = "1qwA4S3DTwqTGZTC0sqaPRBXCuReBiU17"
@@ -96,10 +96,11 @@ tasks.withType(JavaCompile) {
 }
 
 task downloadMediaSamplesToDevice {
-    println("AAAAAAAAA "+AN)
+    File file11 = file('local.properties')
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     properties.setProperty('sdk.dir',"$System.env.ANDROID_HOME")
+    properties.put('sdk.dir',"$System.env.ANDROID_HOME")
     Properties properties1 = new Properties()
     properties1.load(project.rootProject.file('gradle.properties').newDataInputStream())
     properties1.setProperty('org.gradle.java.home',"$System.env.JAVA_HOME")
