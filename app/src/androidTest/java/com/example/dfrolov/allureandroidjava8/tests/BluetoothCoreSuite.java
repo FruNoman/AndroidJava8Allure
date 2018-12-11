@@ -30,6 +30,8 @@ import org.junit.runners.MethodSorters;
 import java.util.Calendar;
 import java.util.List;
 
+import static junit.framework.TestCase.fail;
+
 /**
  * Instrumented test, which will execute on an Android device.
  *
@@ -196,7 +198,17 @@ public class BluetoothCoreSuite extends BaseTest {
     public void bluetoothSetEmptyNameTest() throws Exception {
         adapter.setName("");
         Assert.assertNotEquals("Bluetooth adapter name should not be empty","",adapter.getName());
+    }
 
+    @DisplayName("Bluetooth adapter get remote device test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetoothGetRemoteDeviceTest() throws InterruptedException {
+        adapter.disable();
+        waitForState(BluetoothAdapter.STATE_OFF);
+        BluetoothDevice device = adapter.getRemoteDevice("00:11:22:AA:BB:CC");
+        Assert.assertNotNull(device);
+        Assert.assertEquals("00:11:22:AA:BB:CC", device.getAddress());
     }
 
     @DisplayName("Bluetooth adapter switching many time ON/OFF test")
