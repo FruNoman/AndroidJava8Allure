@@ -6,7 +6,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 String PROJECT_PACKAGE = (System.getProperty("user.dir"))
 String RESOURCES_PATH = (PROJECT_PACKAGE + "/app/src/test/resources")
-String GOOGLE_DRIVE_ID = "1qwA4S3DTwqTGZTC0sqaPRBXCuReBiU17"
+String GOOGLE_DRIVE_ID = "1Li_02Xwu9vgI5TKVafbVHs0Q5d6hbFao"
 String DEVICE_SAMPLES_PATH = "/sdcard/samples/"
 String DEVICE_ALLURE_RESULTS_PATH = "/sdcard/allure-results"
 String ALLURE = RESOURCES_PATH+"/allure/bin/allure"
@@ -91,11 +91,8 @@ dependencies {
 }
 
 
-tasks.withType(JavaCompile) {
-    gradle.properties.put("org.gradle.java.home","$System.env.JAVA_HOME")
-}
-
 task downloadMediaSamplesToDevice {
+
     println("Choose device $System.env.ANDROID_SERIAL")
     println("Set android home $System.env.ANDROID_HOME")
     println("Set java home $System.env.JAVA_HOME")
