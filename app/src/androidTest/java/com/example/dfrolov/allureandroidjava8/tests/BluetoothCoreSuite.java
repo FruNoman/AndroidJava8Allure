@@ -101,7 +101,7 @@ public class BluetoothCoreSuite extends BaseTest {
     @DisplayName("Bluetooth adapter ON/OFF test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void bluetooth_1_OnOffTest() throws InterruptedException {
+    public void bluetoothOnOffTest() throws InterruptedException {
         adapter.disable();
         waitForState(BluetoothAdapter.STATE_OFF);
         adapter.enable();
@@ -111,7 +111,7 @@ public class BluetoothCoreSuite extends BaseTest {
     @DisplayName("Bluetooth adapter short time ON/OFF test")
     @Severity(SeverityLevel.NORMAL)
     @Test
-    public void bluetooth_2_shortTimeOnOffTest() throws InterruptedException {
+    public void bluetoothShortTimeOnOffTest() throws InterruptedException {
         long startTime = System.currentTimeMillis();
         while (System.currentTimeMillis() - startTime < SHORT_TIME_WAIT) {
             Assert.assertEquals("Bluetooth adapter state not STATE_ON",
@@ -121,10 +121,88 @@ public class BluetoothCoreSuite extends BaseTest {
         }
     }
 
+
+    @DisplayName("Bluetooth adapter check correct bluetooth addresses test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetoothCheckCorrectMacAddressesTest() {
+        Assert.assertFalse("Bluetooth address can't be null", BluetoothAdapter.checkBluetoothAddress(null));
+        // Must be 17 characters long.
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress(""));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("0"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:0"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:0"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:0"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00:"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00:0"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00:00"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00:00:"));
+        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00:00:0"));
+        //
+        Assert.assertFalse("Bluetooth adapter must have colons between octets", BluetoothAdapter.checkBluetoothAddress(
+                "00x00:00:00:00:00"));
+        Assert.assertFalse("Bluetooth adapter must have colons between octets", BluetoothAdapter.checkBluetoothAddress(
+                "00:00.00:00:00:00"));
+        Assert.assertFalse("Bluetooth adapter must have colons between octets", BluetoothAdapter.checkBluetoothAddress(
+                "00:00:00-00:00:00"));
+        Assert.assertFalse("Bluetooth adapter must have colons between octets", BluetoothAdapter.checkBluetoothAddress(
+                "00:00:00:00900:00"));
+        Assert.assertFalse("Bluetooth adapter must have colons between octets", BluetoothAdapter.checkBluetoothAddress(
+                "00:00:00:00:00?00"));
+        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
+                "a0:00:00:00:00:00"));
+        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
+                "0b:00:00:00:00:00"));
+        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
+                "00:c0:00:00:00:00"));
+        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
+                "00:0d:00:00:00:00"));
+        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
+                "00:00:e0:00:00:00"));
+        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
+                "00:00:0f:00:00:00"));
+        Assert.assertTrue(BluetoothAdapter.checkBluetoothAddress(
+                "00:00:00:00:00:00"));
+        Assert.assertTrue(BluetoothAdapter.checkBluetoothAddress(
+                "12:34:56:78:9A:BC"));
+        Assert.assertTrue(BluetoothAdapter.checkBluetoothAddress(
+                "DE:F0:FE:DC:B8:76"));
+    }
+
+    @DisplayName("Bluetooth adapter check correct device adapter address test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetoothCheckCorrectDeviceAddressTest() throws InterruptedException {
+        Assert.assertTrue("Bluetooth adapter current mac address incorrect", BluetoothAdapter.checkBluetoothAddress(adapter.getAddress()));
+    }
+
+    @DisplayName("Bluetooth adapter get device name test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetoothGetNameTest() {
+        Assert.assertNotNull(adapter.getName());
+    }
+
+    @DisplayName("Bluetooth adapter check device empty name")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetoothSetEmptyNameTest() throws Exception {
+        adapter.setName("");
+        Assert.assertNotEquals("Bluetooth adapter name should not be empty","",adapter.getName());
+
+    }
+
     @DisplayName("Bluetooth adapter switching many time ON/OFF test")
     @Severity(SeverityLevel.NORMAL)
     @Test
-    public void bluetooth_3_switchingManyTimeOnOffTest() throws InterruptedException {
+    public void bluetoothSwitchingManyTimeOnOffTest() throws InterruptedException {
         int switchingCount = 0;
         while (switchingCount < 30) {
             adapter.disable();
@@ -138,7 +216,7 @@ public class BluetoothCoreSuite extends BaseTest {
     @DisplayName("Bluetooth adapter scanning test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void bluetooth_4_ScanTest() throws Exception {
+    public void bluetoothScanTest() throws Exception {
         adapter.startDiscovery();
         Thread.sleep(5000);
         adapter.cancelDiscovery();
@@ -151,7 +229,7 @@ public class BluetoothCoreSuite extends BaseTest {
     @DisplayName("Bluetooth adapter change name  test")
     @Severity(SeverityLevel.NORMAL)
     @Test
-    public void bluetooth_5_changeNameTest() throws Exception {
+    public void bluetoothChangeNameTest() throws Exception {
         String bluetoothName = mDevice.executeShellCommand(TestUtils.RO_PRODUCT_BOARD);
         adapter.setName(bluetoothName);
         String bluetoothTestName = bluetoothName + Calendar.getInstance().getTime().getTime();
@@ -170,7 +248,7 @@ public class BluetoothCoreSuite extends BaseTest {
     @DisplayName("Bluetooth adapter change name to max length test")
     @Severity(SeverityLevel.NORMAL)
     @Test
-    public void bluetooth_6_NameMaxLengthTest() throws Exception {
+    public void bluetoothNameMaxLengthTest() throws Exception {
         String bluetoothName = mDevice.executeShellCommand(TestUtils.RO_PRODUCT_BOARD);
         adapter.setName(bluetoothName);
         String bluetoothTestName = TestUtils.randomString(1000);
@@ -192,7 +270,7 @@ public class BluetoothCoreSuite extends BaseTest {
     @DisplayName("Bluetooth adapter change name to different languages test")
     @Severity(SeverityLevel.NORMAL)
     @Test
-    public void bluetooth_7_NameLanguagesTest() throws Exception {
+    public void bluetoothNameLanguagesTest() throws Exception {
         String bluetoothName = mDevice.executeShellCommand(TestUtils.RO_PRODUCT_BOARD);
         adapter.setName(bluetoothName);
         String[] languageNames = {

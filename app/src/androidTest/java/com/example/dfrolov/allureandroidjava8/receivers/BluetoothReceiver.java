@@ -33,7 +33,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
         int count = 0;
         while (!nameStatus) {
             try {
-                if (count > 30) {
+                if (count > 15) {
                     throw new Exception("The current bluetooth name has no changed");
                 } else {
                     Thread.sleep(1000);
