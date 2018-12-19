@@ -153,48 +153,48 @@ public class StepsAspects {
     @Pointcut("@annotation(org.junit.Test)")
     public void testAnnotation() {
     }
-
-
-    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
-    @Around("call(* android..*.*(..)) && !androidGraphics() && !androidSupport() && !androidApp() && !allureStep() && !testAnnotation()")
-    public Object everyStepAndroid(final ProceedingJoinPoint joinPoint) throws Throwable {
-        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-
-        final String uuid = UUID.randomUUID().toString();
-        final String className = methodSignature.getDeclaringType().getSimpleName();
-        final String methodName =  methodSignature.getMethod().getName();
-        Pattern p = Pattern.compile("(?=\\p{Lu})");
-        String name = Arrays.asList(p.split(methodName)).toString()
-                .replace(","," ")
-                .replace("[","")
-                .replace("]","")
-                .toLowerCase();
-        final StepResult result = new StepResult()
-                .withName(className+" "+ name)
-                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
-//        String time = getCurrentTimeStamp();
-//        System.out.println(name);
-        getLifecycle().startStep(uuid, result);
-        try {
-            final Object proceed = joinPoint.proceed();
-            getLifecycle().updateStep1(uuid, result.withStatus(Status.PASSED));
-            return proceed;
-        } catch (Throwable e) {
-            getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
-                    .withStatusDetails(getStatusDetails(e).orElse(null)));
-            throw e;
-        } finally {
-//            String logs = getLogs(time);
-//            if (!logs.isEmpty()) {
-//                getLifecycle().updateStep1(uuid,
-//                        result.withParameters(new Parameter()
-//                                .withName("Logcat")
-//                        .withValue(logs)));
-//            }
-            getLifecycle().stopStep(uuid);
-        }
-    }
-
+//
+//
+//    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
+//    @Around("call(* android..*.*(..)) && !androidGraphics() && !androidSupport() && !androidApp() && !allureStep() && !testAnnotation()")
+//    public Object everyStepAndroid(final ProceedingJoinPoint joinPoint) throws Throwable {
+//        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+//
+//        final String uuid = UUID.randomUUID().toString();
+//        final String className = methodSignature.getDeclaringType().getSimpleName();
+//        final String methodName =  methodSignature.getMethod().getName();
+//        Pattern p = Pattern.compile("(?=\\p{Lu})");
+//        String name = Arrays.asList(p.split(methodName)).toString()
+//                .replace(","," ")
+//                .replace("[","")
+//                .replace("]","")
+//                .toLowerCase();
+//        final StepResult result = new StepResult()
+//                .withName(className+" "+ name)
+//                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
+////        String time = getCurrentTimeStamp();
+////        System.out.println(name);
+//        getLifecycle().startStep(uuid, result);
+//        try {
+//            final Object proceed = joinPoint.proceed();
+//            getLifecycle().updateStep1(uuid, result.withStatus(Status.PASSED));
+//            return proceed;
+//        } catch (Throwable e) {
+//            getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
+//                    .withStatusDetails(getStatusDetails(e).orElse(null)));
+//            throw e;
+//        } finally {
+////            String logs = getLogs(time);
+////            if (!logs.isEmpty()) {
+////                getLifecycle().updateStep1(uuid,
+////                        result.withParameters(new Parameter()
+////                                .withName("Logcat")
+////                        .withValue(logs)));
+////            }
+//            getLifecycle().stopStep(uuid);
+//        }
+//    }
+//
     @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
     @Around("assertSupport()")
     public Object everyStep(final ProceedingJoinPoint joinPoint) throws Throwable {
@@ -225,44 +225,44 @@ public class StepsAspects {
             getLifecycle().stopStep(uuid);
         }
     }
-
-    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
-    @Around("!allureSupport() && testsSupport() && !beforeAnnotation() && !afterAnnotation() && !allureStep() && !testAnnotation()")
-    public Object everyStepTest(final ProceedingJoinPoint joinPoint) throws Throwable {
-        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-
-        final String uuid = UUID.randomUUID().toString();
-        final String className = methodSignature.getDeclaringType().getSimpleName();
-        final String methodName =  methodSignature.getMethod().getName();
-        Pattern p = Pattern.compile("(?=\\p{Lu})");
-        String name = Arrays.asList(p.split(methodName)).toString()
-                .replace(","," ")
-                .replace("[","")
-                .replace("]","")
-                .toLowerCase();
-        final StepResult result = new StepResult()
-                .withName(className+" "+ name)
-                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
-        String time = getCurrentTimeStamp();
-//        System.out.println(name);
-        getLifecycle().startStep(uuid, result);
-        try {
-            final Object proceed = joinPoint.proceed();
-            getLifecycle().updateStep1(uuid, result.withStatus(Status.PASSED));
-            return proceed;
-        } catch (Throwable e) {
-            getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
-                    .withStatusDetails(getStatusDetails(e).orElse(null)));
-            throw e;
-        } finally {
-//            String logs = getLogs(time);
-//            if (!logs.isEmpty()) {
-//                getLifecycle().updateStep1(uuid, result.withParameters(new Parameter().withName("Logcat")
-//                        .withValue(logs)));
-//            }
-            getLifecycle().stopStep(uuid);
-        }
-    }
+//
+//    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
+//    @Around("!allureSupport() && testsSupport() && !beforeAnnotation() && !afterAnnotation() && !allureStep() && !testAnnotation()")
+//    public Object everyStepTest(final ProceedingJoinPoint joinPoint) throws Throwable {
+//        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+//
+//        final String uuid = UUID.randomUUID().toString();
+//        final String className = methodSignature.getDeclaringType().getSimpleName();
+//        final String methodName =  methodSignature.getMethod().getName();
+//        Pattern p = Pattern.compile("(?=\\p{Lu})");
+//        String name = Arrays.asList(p.split(methodName)).toString()
+//                .replace(","," ")
+//                .replace("[","")
+//                .replace("]","")
+//                .toLowerCase();
+//        final StepResult result = new StepResult()
+//                .withName(className+" "+ name)
+//                .withParameters(getParameters(methodSignature, joinPoint.getArgs()));
+//        String time = getCurrentTimeStamp();
+////        System.out.println(name);
+//        getLifecycle().startStep(uuid, result);
+//        try {
+//            final Object proceed = joinPoint.proceed();
+//            getLifecycle().updateStep1(uuid, result.withStatus(Status.PASSED));
+//            return proceed;
+//        } catch (Throwable e) {
+//            getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
+//                    .withStatusDetails(getStatusDetails(e).orElse(null)));
+//            throw e;
+//        } finally {
+////            String logs = getLogs(time);
+////            if (!logs.isEmpty()) {
+////                getLifecycle().updateStep1(uuid, result.withParameters(new Parameter().withName("Logcat")
+////                        .withValue(logs)));
+////            }
+//            getLifecycle().stopStep(uuid);
+//        }
+//    }
 
     @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn")
     @Around("beforeAnnotation()")

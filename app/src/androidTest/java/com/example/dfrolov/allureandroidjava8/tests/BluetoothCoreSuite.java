@@ -5,16 +5,22 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.test.rule.GrantPermissionRule;
+import android.util.Log;
 
 
 import com.example.dfrolov.allureandroidjava8.allure_implementation.RenesasRunner;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Description;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Epic;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Link;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Severity;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.SeverityLevel;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.TmsLink;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.DisplayName;
+import com.example.dfrolov.allureandroidjava8.core.BluetoothAdapterAllure;
 import com.example.dfrolov.allureandroidjava8.receivers.BluetoothReceiver;
 import com.example.dfrolov.allureandroidjava8.utils.TestUtils;
 
@@ -27,6 +33,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -43,29 +51,15 @@ import static junit.framework.TestCase.fail;
 @RunWith(RenesasRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BluetoothCoreSuite extends BaseTest {
-    public BluetoothAdapter adapter;
-    private BluetoothReceiver receiver;
-
-    public void bluetoothForceEnable() {
-        boolean success = true;
-        if (!adapter.isEnabled()) {
-            success = adapter.enable();
-        }
-    }
-
-    public void waitForState(int state) throws InterruptedException {
-        long startTime = System.currentTimeMillis();
-        while (adapter.getState() != state) {
-            Thread.sleep(1000);
-            if (System.currentTimeMillis() - startTime > 10000) {
-                Assert.assertFalse("Wait for bluetooth adapter state "
-                                + state + " more than "
-                                + (System.currentTimeMillis() - startTime) / 1000
-                                + " seconds",
-                        true);
-            }
-        }
-    }
+    public BluetoothAdapter bleAdapter;
+    public BluetoothAdapterAllure adapter;
+    protected String defaultBluetoothName;
+    protected String[] languageNames = {
+            "блутуз",
+            "キングフィッシャー",
+            "翠鳥",
+            "الرفراف طائر",
+            "\uD83D\uDE02\uD83D\uDE0D\uD83C\uDF89\uD83D\uDC4D"};
 
 
     @Rule
@@ -82,230 +76,221 @@ public class BluetoothCoreSuite extends BaseTest {
 
 
     @Before
-    public void beforeBluetoothTests() throws InterruptedException {
-        Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        appContext.startActivity(intent);
-        Thread.sleep(TIMEOUT);
-
-        receiver = new BluetoothReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
-        filter.addAction(BluetoothAdapter.ACTION_LOCAL_NAME_CHANGED);
-        filter.addAction(BluetoothDevice.ACTION_FOUND);
-        appContext.registerReceiver(receiver, filter);
-
-        adapter = BluetoothAdapter.getDefaultAdapter();
-        bluetoothForceEnable();
-        waitForState(BluetoothAdapter.STATE_ON);
+    public void beforeBluetoothTests() throws Exception {
+        startActivity(Settings.ACTION_BLUETOOTH_SETTINGS);
+        bleAdapter = BluetoothAdapter.getDefaultAdapter();
+        adapter = new BluetoothAdapterAllure(bleAdapter);
+        adapter.bluetoothForceEnable();
+        adapter.isAvailable();
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, adapter.getState());
+        defaultBluetoothName = adapter.setDefultName();
     }
 
+
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter ON/OFF test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void bluetoothOnOffTest() throws InterruptedException {
+    public void bluetooth_1_OnOffTest() throws InterruptedException {
         adapter.disable();
-        waitForState(BluetoothAdapter.STATE_OFF);
+        adapter.waitForState(BluetoothAdapter.STATE_OFF);
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, adapter.getState());
         adapter.enable();
-        waitForState(BluetoothAdapter.STATE_ON);
+        adapter.waitForState(BluetoothAdapter.STATE_ON);
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, adapter.getState());
     }
 
-    @DisplayName("Bluetooth adapter short time ON/OFF test")
-    @Severity(SeverityLevel.NORMAL)
-    @Test
-    public void bluetoothShortTimeOnOffTest() throws InterruptedException {
-        long startTime = System.currentTimeMillis();
-        while (System.currentTimeMillis() - startTime < SHORT_TIME_WAIT) {
-            Assert.assertEquals("Bluetooth adapter state not STATE_ON",
-                    BluetoothAdapter.STATE_ON,
-                    adapter.getState());
-            Thread.sleep(2000);
-        }
-    }
-
-
-    @DisplayName("Bluetooth adapter check correct bluetooth addresses test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void bluetoothCheckCorrectMacAddressesTest() {
-        Assert.assertFalse("Bluetooth address can't be null", BluetoothAdapter.checkBluetoothAddress(null));
-        // Must be 17 characters long.
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress(""));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("0"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:0"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:0"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:0"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00:"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00:0"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00:00"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00:00:"));
-        Assert.assertFalse("Bluetooth address must be 17 characters long", BluetoothAdapter.checkBluetoothAddress("00:00:00:00:00:0"));
-        //
-        Assert.assertFalse("Bluetooth adapter must have colons between octets", BluetoothAdapter.checkBluetoothAddress(
-                "00x00:00:00:00:00"));
-        Assert.assertFalse("Bluetooth adapter must have colons between octets", BluetoothAdapter.checkBluetoothAddress(
-                "00:00.00:00:00:00"));
-        Assert.assertFalse("Bluetooth adapter must have colons between octets", BluetoothAdapter.checkBluetoothAddress(
-                "00:00:00-00:00:00"));
-        Assert.assertFalse("Bluetooth adapter must have colons between octets", BluetoothAdapter.checkBluetoothAddress(
-                "00:00:00:00900:00"));
-        Assert.assertFalse("Bluetooth adapter must have colons between octets", BluetoothAdapter.checkBluetoothAddress(
-                "00:00:00:00:00?00"));
-        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
-                "a0:00:00:00:00:00"));
-        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
-                "0b:00:00:00:00:00"));
-        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
-                "00:c0:00:00:00:00"));
-        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
-                "00:0d:00:00:00:00"));
-        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
-                "00:00:e0:00:00:00"));
-        Assert.assertFalse("Bluetooth adapter hex letters must be uppercase.", BluetoothAdapter.checkBluetoothAddress(
-                "00:00:0f:00:00:00"));
-        Assert.assertTrue(BluetoothAdapter.checkBluetoothAddress(
-                "00:00:00:00:00:00"));
-        Assert.assertTrue(BluetoothAdapter.checkBluetoothAddress(
-                "12:34:56:78:9A:BC"));
-        Assert.assertTrue(BluetoothAdapter.checkBluetoothAddress(
-                "DE:F0:FE:DC:B8:76"));
-    }
-
-    @DisplayName("Bluetooth adapter check correct device adapter address test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void bluetoothCheckCorrectDeviceAddressTest() throws InterruptedException {
-        Assert.assertTrue("Bluetooth adapter current mac address incorrect", BluetoothAdapter.checkBluetoothAddress(adapter.getAddress()));
-    }
-
-    @DisplayName("Bluetooth adapter get device name test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void bluetoothGetNameTest() {
-        Assert.assertNotNull(adapter.getName());
-    }
-
-    @DisplayName("Bluetooth adapter check device empty name")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void bluetoothSetEmptyNameTest() throws Exception {
-        adapter.setName("");
-        Assert.assertNotEquals("Bluetooth adapter name should not be empty","",adapter.getName());
-    }
-
-    @DisplayName("Bluetooth adapter get remote device test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void bluetoothGetRemoteDeviceTest() throws InterruptedException {
-        adapter.disable();
-        waitForState(BluetoothAdapter.STATE_OFF);
-        BluetoothDevice device = adapter.getRemoteDevice("00:11:22:AA:BB:CC");
-        Assert.assertNotNull(device);
-        Assert.assertEquals("00:11:22:AA:BB:CC", device.getAddress());
-    }
-
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter switching many time ON/OFF test")
     @Severity(SeverityLevel.NORMAL)
     @Test
-    public void bluetoothSwitchingManyTimeOnOffTest() throws InterruptedException {
+    public void bluetooth_2_SwitchingManyTimeOnOffTest() throws InterruptedException {
         int switchingCount = 0;
         while (switchingCount < 30) {
             adapter.disable();
-            waitForState(BluetoothAdapter.STATE_OFF);
+            adapter.waitForState(BluetoothAdapter.STATE_OFF);
+            Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, adapter.getState());
             adapter.enable();
-            waitForState(BluetoothAdapter.STATE_ON);
+            adapter.waitForState(BluetoothAdapter.STATE_ON);
+            Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, adapter.getState());
             switchingCount++;
         }
     }
 
-    @DisplayName("Bluetooth adapter scanning test")
+
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
+    @DisplayName("Bluetooth adapter short time ON test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void bluetoothScanTest() throws Exception {
-        adapter.startDiscovery();
-        Thread.sleep(5000);
-        adapter.cancelDiscovery();
-        List<BluetoothDevice> scanDevices = receiver.getScanDevices();
-        Assert.assertTrue("No bluetooth devices found",
-                scanDevices.size() > 0);
+    public void bluetooth_3_ShortTimeOnTest() throws InterruptedException {
+        int interactions = 0;
+        while (interactions < 30) {
+            int state = adapter.getState();
+            Assert.assertEquals("Bluetooth adapter unexpected state", BluetoothAdapter.STATE_ON, state);
+            adapter.waitTime(1000);
+            interactions++;
+        }
     }
 
-    //
-    @DisplayName("Bluetooth adapter change name  test")
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
+    @DisplayName("Bluetooth adapter change name test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetooth_4_ChangeNameTest() throws Exception {
+        String expectedName = adapter.setName(defaultBluetoothName + Calendar.getInstance().getTime().getTime());
+        adapter.waitLocalNameChanged();
+        String actualName = adapter.getName();
+        Assert.assertEquals("Bluetooth adapter name not changed",
+                expectedName,
+                actualName);
+    }
+
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
+    @DisplayName("Bluetooth adapter check device empty name")
     @Severity(SeverityLevel.NORMAL)
     @Test
-    public void bluetoothChangeNameTest() throws Exception {
-        String bluetoothName = mDevice.executeShellCommand(TestUtils.RO_PRODUCT_BOARD);
-        adapter.setName(bluetoothName);
-        String bluetoothTestName = bluetoothName + Calendar.getInstance().getTime().getTime();
-        adapter.setName(bluetoothTestName);
-        receiver.waitLocalNameChanged();
-        Assert.assertEquals("Bluetooth adapter name not changed",
-                bluetoothTestName,
-                adapter.getName());
-        adapter.setName(bluetoothName);
-        receiver.waitLocalNameChanged();
-        Assert.assertEquals("Bluetooth name NOT equals expected",
-                bluetoothName,
-                adapter.getName());
+    public void bluetooth_5_SetEmptyNameTest() throws Exception {
+        String unexpectedName = adapter.setName("");
+        String actualName = adapter.getName();
+        Assert.assertNotEquals("Bluetooth adapter unexpected name " + unexpectedName, unexpectedName, actualName);
     }
 
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter change name to max length test")
     @Severity(SeverityLevel.NORMAL)
     @Test
-    public void bluetoothNameMaxLengthTest() throws Exception {
-        String bluetoothName = mDevice.executeShellCommand(TestUtils.RO_PRODUCT_BOARD);
-        adapter.setName(bluetoothName);
-        String bluetoothTestName = TestUtils.randomString(1000);
-        adapter.setName(bluetoothTestName);
-        receiver.waitLocalNameChanged();
-        Assert.assertEquals("Bluetooth adapter name not changed",
-                bluetoothTestName,
-                adapter.getName());
-        Assert.assertEquals("Bluetooth adapter max name length less then 1000 symbols",
+    public void bluetooth_6_NameMaxLengthTest() throws Exception {
+        String expectedName = adapter.setName(TestUtils.randomString(1000));
+        adapter.waitLocalNameChanged();
+        String actualName = adapter.getName();
+        Assert.assertEquals("Unexpected bluetooth adapter name",
+                expectedName,
+                actualName);
+        Assert.assertEquals("Unexpected bluetooth adapter name length",
                 1000,
-                adapter.getName().length());
-        adapter.setName(bluetoothName);
-        receiver.waitLocalNameChanged();
-        Assert.assertEquals("Bluetooth name NOT equals expected",
-                bluetoothName,
-                adapter.getName());
+                actualName.length());
     }
 
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter change name to different languages test")
     @Severity(SeverityLevel.NORMAL)
     @Test
-    public void bluetoothNameLanguagesTest() throws Exception {
-        String bluetoothName = mDevice.executeShellCommand(TestUtils.RO_PRODUCT_BOARD);
-        adapter.setName(bluetoothName);
-        String[] languageNames = {
-                "キングフィッシャー",
-                "翠鳥",
-                "الرفراف طائر",
-                "\uD83D\uDE02\uD83D\uDE0D\uD83C\uDF89\uD83D\uDC4D"};
+    public void bluetooth_7_NameLanguagesTest() throws Exception {
         for (String bluetoothTestName : languageNames) {
-            adapter.setName(bluetoothTestName);
-            receiver.waitLocalNameChanged();
-            Assert.assertEquals("Bluetooth adapter name not changed",
-                    bluetoothTestName,
-                    adapter.getName());
+            String expectedName = adapter.setName(bluetoothTestName);
+            adapter.waitLocalNameChanged();
+            String actualName = adapter.getName();
+            Assert.assertEquals("Unexpected bluetooth adapter name",
+                    expectedName,
+                    actualName);
         }
-        adapter.setName(bluetoothName);
-        receiver.waitLocalNameChanged();
-        Assert.assertEquals("Bluetooth name NOT equals expected",
-                bluetoothName,
-                adapter.getName());
+    }
+
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
+    @DisplayName("Bluetooth adapter ON get remote device test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetooth_8_EnableGetRemoteDeviceTest() throws InterruptedException {
+        BluetoothDevice device = adapter.getRemoteDevice("00:11:22:AA:BB:CC");
+        Assert.assertNotNull("Unexpected bluetooth device ", device);
+        Assert.assertEquals("Unexpected bluetooth device address", "00:11:22:AA:BB:CC", device.getAddress());
+    }
+
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
+    @DisplayName("Bluetooth adapter OFF get remote device test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetooth_9_DisableGetRemoteDeviceTest() throws InterruptedException {
+        adapter.disable();
+        adapter.waitForState(BluetoothAdapter.STATE_OFF);
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, adapter.getState());
+        BluetoothDevice device = adapter.getRemoteDevice("00:11:22:AA:BB:CC");
+        Assert.assertNotNull("Unexpected bluetooth device ", device);
+        Assert.assertEquals("Unexpected bluetooth device address", "00:11:22:AA:BB:CC", device.getAddress());
+    }
+
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
+    @DisplayName("Bluetooth adapter scanning test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetooth_1_0_ScanTest() throws Exception {
+        adapter.startDiscovery();
+        adapter.waitTime(5000);
+        adapter.cancelDiscovery();
+        List<BluetoothDevice> scanDevices = adapter.getScanDevices();
+        Assert.assertTrue("Unexpected bluetooth devices count",
+                scanDevices.size() > 0);
+    }
+
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
+    @DisplayName("Bluetooth adapter airplane mode test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetooth_1_1_AirplaneModeTest() throws Exception {
+        setAirPlaneMode(true);
+        adapter.waitForState(BluetoothAdapter.STATE_OFF);
+        Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, adapter.getState());
+        setAirPlaneMode(false);
+        adapter.waitForState(BluetoothAdapter.STATE_ON);
+        Assert.assertFalse("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, adapter.getState());
+    }
+
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
+    @DisplayName("Bluetooth adapter airplane mode switching many times test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetooth_1_2_SwitchManyTimeAirplaneModeTest() throws Exception {
+        int switchingCount = 0;
+        while (switchingCount < 30) {
+            setAirPlaneMode(true);
+            adapter.waitForState(BluetoothAdapter.STATE_OFF);
+            Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
+            Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, adapter.getState());
+            setAirPlaneMode(false);
+            adapter.waitForState(BluetoothAdapter.STATE_ON);
+            Assert.assertFalse("Unexpected airplane mpde",getAirplaneMode());
+            Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, adapter.getState());
+            switchingCount++;
+        }
+    }
+
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(BluetoothAdapterAllure.DESCRIPTION)
+    @DisplayName("Bluetooth adapter force enable airplane mode test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void bluetooth_1_3_ForceOnAirplaneModeTest() throws Exception {
+        setAirPlaneMode(true);
+        adapter.waitForState(BluetoothAdapter.STATE_OFF);
+        Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, adapter.getState());
+        adapter.enable();
+        adapter.waitForState(BluetoothAdapter.STATE_ON);
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, adapter.getState());
+        setAirPlaneMode(false);
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, adapter.getState());
+        Assert.assertFalse("Unexpected airplane mpde",getAirplaneMode());
+        adapter.disable();
+        adapter.waitForState(BluetoothAdapter.STATE_OFF);
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, adapter.getState());
     }
 
     @After
-    public void afterBluetoothTests() {
+    public void afterBluetoothTests() throws IOException {
         adapter.disable();
     }
 }

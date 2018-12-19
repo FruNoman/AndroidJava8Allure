@@ -177,9 +177,7 @@ runUnitTests.dependsOn runAcceptanceTests
 
 jenkins.dependsOn "assembleDebug"
 
-jenkins.finalizedBy runUnitTests
-
-
+jenkins.finalizedBy "runAcceptanceTests"
 
 
 gradle.buildFinished {

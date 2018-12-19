@@ -3,13 +3,19 @@ package com.example.dfrolov.allureandroidjava8.tests;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.provider.Settings;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.uiautomator.UiDevice;
+import android.util.Log;
 
 import com.example.dfrolov.allureandroidjava8.MainActivity;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Allure;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Attachment;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,6 +40,7 @@ public class BaseTest {
     protected final static int SHORT_TIME_WAIT = 30000;
     protected final static int LONG_TIME_WAIT = 30000;
     public String time;
+
 
     String webmAV000962 = "AV_000962_big_buck_bunny_vga_vp8_25fps_vorbis.webm";
     String h263AV001248 =
@@ -88,6 +95,32 @@ public class BaseTest {
     String mkaA000485 =
             "A_000485_ehren-paper_lights.mka";
 
+    @Step("Start activity view")
+    public void startActivity(String activityName) {
+        Intent intent = new Intent(activityName);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        appContext.startActivity(intent);
+        Log.i("Base", "Start activity " + activityName);
+    }
+
+    @Step("Get airplane mode")
+    public static boolean getAirplaneMode() {
+        String mode =  Settings.Global.getString(appContext.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON);
+        if(mode.equals("1")){
+            Log.i("Base", "Get airplane mode true");
+            return true;
+        }else {
+            Log.i("Base", "Get airplane mode false");
+            return false;
+        }
+    }
+
+    @Step("Set airplane mode")
+    public void setAirPlaneMode(boolean airplaneMode) throws IOException {
+        int mode = airplaneMode ? 1 : 0;
+        mDevice.executeShellCommand("settings put global airplane_mode_on " + mode);
+        Log.i("Base", "Set airplane mode " + airplaneMode);
+    }
 
     public void setTitle(final Activity act, final String title) {
         act.runOnUiThread(new Runnable() {
@@ -102,12 +135,11 @@ public class BaseTest {
         return new SimpleDateFormat("MM-dd HH:mm:ss.SSS").format(new Date());
     }
 
+
     public static String getLogs(String time) {
         StringBuilder builder = new StringBuilder();
-
         try {
-            String[] command = new String[]{"logcat", "-d", "-t", time};
-
+            String[] command = new String[]{"logcat", "-t", time};
             Process process = Runtime.getRuntime().exec(command);
             process.waitFor();
             BufferedReader bufferedReader = new BufferedReader(
@@ -115,13 +147,9 @@ public class BaseTest {
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-
                 builder.append(line + "\n");
-                //Code here
-
             }
         } catch (Exception ex) {
-
         }
         return builder.toString();
     }
