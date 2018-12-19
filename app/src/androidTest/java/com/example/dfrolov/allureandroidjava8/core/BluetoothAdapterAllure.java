@@ -10,6 +10,8 @@ import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step;
 import com.example.dfrolov.allureandroidjava8.receivers.BluetoothReceiver;
 import com.example.dfrolov.allureandroidjava8.utils.TestUtils;
 
+import org.junit.Assume;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -161,7 +163,7 @@ public class BluetoothAdapterAllure extends BaseAdapterAllure{
             Thread.sleep(1000);
             if (System.currentTimeMillis() - startTime > 3000) {
                 Log.i(TAG,"Bluetooth adapter not available");
-                throw new Exception("Bluetooth adapter not available");
+                Assume.assumeFalse("Bluetooth adapter not available",true);
             }
 
         }

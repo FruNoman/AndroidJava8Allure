@@ -19,6 +19,7 @@ import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Sever
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.SeverityLevel;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Step;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.TmsLink;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.TmsLinks;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.DisplayName;
 import com.example.dfrolov.allureandroidjava8.core.BluetoothAdapterAllure;
 import com.example.dfrolov.allureandroidjava8.receivers.BluetoothReceiver;
@@ -26,8 +27,10 @@ import com.example.dfrolov.allureandroidjava8.utils.TestUtils;
 
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -85,7 +88,6 @@ public class BluetoothCoreSuite extends BaseTest {
         Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, adapter.getState());
         defaultBluetoothName = adapter.setDefultName();
     }
-
 
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
