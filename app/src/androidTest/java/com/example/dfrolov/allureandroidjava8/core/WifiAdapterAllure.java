@@ -29,6 +29,9 @@ public class WifiAdapterAllure extends BaseAdapterAllure {
     private WifiManager adapter;
     private String TAG = "Wifi adapter";
     private ConnectivityManager connectivityManager;
+    public final static String DESCRIPTION = "Wifi adapter states:</br>" +
+            "1 - adapter disabled<br>" +
+            "3 - adapter enabled<br>";
 
     public WifiAdapterAllure(WifiManager adapter) {
         super();
@@ -125,14 +128,24 @@ public class WifiAdapterAllure extends BaseAdapterAllure {
         return file;
     }
 
+    @Step("Get wifi adapter connected state")
+    public NetworkInfo.DetailedState getDetailedState(){
+        NetworkInfo.DetailedState currentState = NetworkInfo.DetailedState.FAILED;
+        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+        if (info != null) {
+            currentState = info.getDetailedState();
+        }
+        return currentState;
+    }
+
     @Step("Wait for wifi adapter state")
     public boolean waitState(NetworkInfo.DetailedState state) throws InterruptedException {
         boolean success = true;
         long startTime = System.currentTimeMillis();
         NetworkInfo.DetailedState currentState = NetworkInfo.DetailedState.FAILED;
         while (currentState != state) {
-            Thread.sleep(1000);
-            if (System.currentTimeMillis() - startTime > 10000) {
+            SystemClock.sleep(1000);
+            if (System.currentTimeMillis() - startTime > 8000) {
                 success = false;
                 break;
             }
@@ -149,27 +162,29 @@ public class WifiAdapterAllure extends BaseAdapterAllure {
     @Step("Wait for wifi adapter state")
     public boolean waitState(int state) throws InterruptedException {
         boolean success = true;
-        long startTime = System.currentTimeMillis();
+        int count = 0;
         while (adapter.getWifiState() != state) {
-            Thread.sleep(1000);
-            if (System.currentTimeMillis() - startTime > 10000) {
+            if (count > 10) {
                 success = false;
                 break;
             }
+            Thread.sleep(1000);
+            count++;
         }
-        Log.i(TAG, "Wait for wifi adapter state "+state+" time "+(System.currentTimeMillis() - startTime));
+        Log.i(TAG, "Wait for wifi adapter state "+state+" time "+count+" sec");
         return success;
     }
 
     @Step("Check if wifi adapter available")
     public void isAvailable() throws Exception {
-        long startTime = System.currentTimeMillis();
+        int count = 0;
         while (adapter.getWifiState() != WifiManager.WIFI_STATE_ENABLED) {
-            if (System.currentTimeMillis() - startTime > 8000) {
+            if (count > 10) {
                 Log.i(TAG,"Wifi adapter not available");
                 Assume.assumeFalse("Wifi adapter not available",true);
             }
             SystemClock.sleep(1000);
+            count++;
         }
     }
 
@@ -206,6 +221,12 @@ public class WifiAdapterAllure extends BaseAdapterAllure {
         wifiRNSconfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
         Log.i(TAG,"Get wifi password network configuration "+wifiRNSconfig);
         return wifiRNSconfig;
+    }
+
+    @Step("Wait time")
+    public long waitTime(long time) throws InterruptedException {
+        Thread.sleep(time);
+        return time;
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.dfrolov.allureandroidjava8.core;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.IntentFilter;
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Attachment;
@@ -137,8 +138,8 @@ public class BluetoothAdapterAllure extends BaseAdapterAllure{
     }
 
     @Step("Wait time")
-    public long waitTime(long time) throws InterruptedException {
-        Thread.sleep(time);
+    public long waitTime(long time) {
+        SystemClock.sleep(time);
         attach(time);
         return time;
     }

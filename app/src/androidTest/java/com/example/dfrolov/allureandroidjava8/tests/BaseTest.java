@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
@@ -22,8 +23,13 @@ import org.junit.Before;
 import org.junit.Rule;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -131,27 +137,24 @@ public class BaseTest {
         });
     }
 
-    public String getCurrentTimeStamp() {
-        return new SimpleDateFormat("MM-dd HH:mm:ss.SSS").format(new Date());
+    @Attachment(value = "LOGCAT", type = "text/plain")
+    public static byte[]saveLog(String path) throws IOException {
+        File file = new File(path);
+        return Files.readAllBytes(file.toPath());
     }
 
 
-    public static String getLogs(String time) {
-        StringBuilder builder = new StringBuilder();
+    public static void  getLogs() {
         try {
-            String[] command = new String[]{"logcat", "-t", time};
-            Process process = Runtime.getRuntime().exec(command);
-            process.waitFor();
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()));
+            File filename = new File(Environment.getExternalStorageDirectory()+"/mylog"+new Date().getTime()+".log");
+            filename.createNewFile();
+            String command = "logcat -d *:D -f"+filename.getAbsolutePath();
+            Runtime.getRuntime().exec(command).waitFor();
+            saveLog(filename.getAbsolutePath());
+            filename.deleteOnExit();
 
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                builder.append(line + "\n");
-            }
         } catch (Exception ex) {
         }
-        return builder.toString();
     }
 
     @Rule
@@ -159,16 +162,15 @@ public class BaseTest {
             new ActivityTestRule<MainActivity>(MainActivity.class);
 
     @Before
-    public void beforeEachTests() throws IOException, InterruptedException {
-        String[] command = new String[]{"logcat", "-c"};
-        Runtime.getRuntime().exec(command).waitFor();
-        time = getCurrentTimeStamp();
+    public void beforeEachTests() throws IOException {
+        Runtime.getRuntime().exec("logcat -c");
     }
 
     @After
-    public void afterEachTests() throws IOException {
+    public void afterEachTests()  {
         mDevice.pressBack();
-        String logcat = getLogs(time);
-        Allure.addAttachment("logcat", logcat);
+        getLogs();
     }
+
+
 }

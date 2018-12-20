@@ -15,6 +15,7 @@ import android.support.test.rule.GrantPermissionRule;
 
 import com.example.dfrolov.allureandroidjava8.allure_implementation.RenesasRunner;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Epic;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Link;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Severity;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.SeverityLevel;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.DisplayName;
@@ -84,7 +85,7 @@ public class WifiCoreSuite extends BaseTest {
         configNetworks.stream().filter(Objects::nonNull).forEach((network) -> adapter.removeNetwork(network.networkId));
     }
 
-
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @DisplayName("Wifi adapter ON/OFF test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -97,84 +98,63 @@ public class WifiCoreSuite extends BaseTest {
         Assert.assertEquals("Unexpected bluetooth adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
     }
 
-
-    @DisplayName("Wifi adapter connect to WPA2 password network")
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @DisplayName("Wifi adapter switching many times ON/OFF test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void wifi_5_connectPassNetworkTest() throws InterruptedException {
-        wifiConfig = adapter.getWPA2config(NETWORK_SSID, NETWORK_PASS);
-        int networkId = adapter.addNetwork(wifiConfig);
-        adapter.enableNetwork(networkId, true);
-        boolean success = adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
-        Assert.assertTrue("Unexpected network connected state",success);
-    }
-
-    @DisplayName("Wifi adapter connect to open network test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void wifi_6_connectOpenTest() throws InterruptedException {
-        wifiConfig = adapter.getOpenConfig(OPEN_NETWORK_SSID);
-        int networkId = adapter.addNetwork(wifiConfig);
-        adapter.enableNetwork(networkId, true);
-        boolean success = adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
-        Assert.assertTrue("Unexpected network connected state",success);
-    }
-
-    @DisplayName("Wifi adapter ENABLE/DISABLE WPA2 password network")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void wifi_7_enableDisablePassNetworkTest() throws InterruptedException {
-        wifiConfig = adapter.getWPA2config(NETWORK_SSID, NETWORK_PASS);
-        int networkId = adapter.addNetwork(wifiConfig);
+    public void wifi_2_SwitchingManyTimesOnOffTest() throws InterruptedException {
         int switchingCount = 0;
-        boolean success = false;
         while (switchingCount < 30) {
-            adapter.enableNetwork(networkId, true);
-            success = adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
-            adapter.disableNetwork(networkId);
-            Assert.assertTrue("Unexpected network connected state",success);
-            success = adapter.waitState(NetworkInfo.DetailedState.DISCONNECTED);
-            Assert.assertTrue("Unexpected network connected state",success);
+            adapter.setWifiEnabled(false);
+            adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+            Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
+            adapter.setWifiEnabled(true);
+            adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
+            Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
             switchingCount++;
         }
     }
 
-    @DisplayName("Wifi adapter connect to few password network")
-    @Severity(SeverityLevel.NORMAL)
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @DisplayName("Wifi adapter short time ON test")
+    @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void wifi_8_ConnectFewNetworksTest() throws InterruptedException {
-        WifiConfiguration wifiConfigRNS_AES_TKIP = adapter.getWPA2config(NETWORK_SSID, NETWORK_PASS);
-        WifiConfiguration wifiConfigRNS_AES = adapter.getWPA2config(NETWORK_SSID_AES, NETWORK_PASS);
-        int networkRNS_TKIP = adapter.addNetwork(wifiConfigRNS_AES_TKIP);
-        int networkRNS_AES = adapter.addNetwork(wifiConfigRNS_AES);
-        Assert.assertTrue("Networks not added to wifi adapter",
-                adapter.getConfiguredNetworks().size() >= 2);
-        adapter.enableNetwork(networkRNS_TKIP, true);
-        boolean success = adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
-        Assert.assertTrue("Unexpected network connected state",success);
-        adapter.enableNetwork(networkRNS_AES, true);
-        success = adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
-        Assert.assertTrue("Unexpected network connected state",success);
+    public void wifi_3_ShortTimeOnTest() throws InterruptedException {
+        int switchingCount = 0;
+        while (switchingCount < 30) {
+            adapter.waitTime(1000);
+            Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+            switchingCount++;
+        }
     }
 
-    @DisplayName("Wifi adapter ON/OFF check enabled network")
-    @Severity(SeverityLevel.NORMAL)
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @DisplayName("Wifi adapter connect to password network")
+    @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void wifi_9_checkOnOffEnabledNetwork() throws InterruptedException {
+    public void wifi_4_connectPassNetworkTest() throws InterruptedException {
         wifiConfig = adapter.getWPA2config(NETWORK_SSID, NETWORK_PASS);
         int networkId = adapter.addNetwork(wifiConfig);
         adapter.enableNetwork(networkId, true);
-        boolean success = adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
-        Assert.assertTrue("Unexpected network connected state",success);
-        adapter.setWifiEnabled(false);
-        adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
-        Assert.assertEquals("Unexpected bluetooth adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
-        adapter.setWifiEnabled(true);
-        adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
-        Assert.assertEquals("Unexpected bluetooth adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
-        success = adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
+        adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
+        Assert.assertEquals("Unexpected wifi connected state",NetworkInfo.DetailedState.CONNECTED,adapter.getDetailedState());
     }
 
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @DisplayName("Wifi adapter connect to open network test")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void wifi_5_connectOpenTest() throws InterruptedException {
+        wifiConfig = adapter.getOpenConfig(OPEN_NETWORK_SSID);
+        int networkId = adapter.addNetwork(wifiConfig);
+        adapter.enableNetwork(networkId, true);
+        adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
+        Assert.assertEquals("Unexpected network connected state",NetworkInfo.DetailedState.CONNECTED,adapter.getDetailedState());
+    }
+
+
+
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @DisplayName("Wifi adapter downloadFile small file test")
     @Severity(SeverityLevel.NORMAL)
     @Test
@@ -187,19 +167,6 @@ public class WifiCoreSuite extends BaseTest {
         Assert.assertTrue("File " + file.getPath() + " not downloads", file.exists());
         file.delete();
     }
-
-//    @DisplayName("Wifi adapter downloadFile medium file test")
-//    @Severity(SeverityLevel.NORMAL)
-//    @Test
-//    public void wifi_11_downloadMediumFileTest() throws IOException, InterruptedException {
-//        wifiConfig = WiFiConfigHelper.getWPA2config(NETWORK_SSID, NETWORK_PASS);
-//        int networkId = adapter.addNetwork(wifiConfig);
-//        adapter.enableNetwork(networkId, true);
-//        waitState(NetworkInfo.DetailedState.CONNECTED);
-//        File file = downloadFile(mediumFileURL);
-//        Assert.assertTrue("File " + file.getPath() + " not downloads", file.exists());
-//        file.delete();
-//    }
 
 
     @After
