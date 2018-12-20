@@ -18,6 +18,7 @@ import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.A
 import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.Parameter;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.Status;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.model_pojo.StepResult;
+import com.example.dfrolov.allureandroidjava8.utils.TestUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -220,6 +221,7 @@ public class StepsAspects {
         } catch (Throwable e) {
             getLifecycle().updateStep1(uuid, result.withStatus(getStatusNot(e))
                     .withStatusDetails(getStatusDetails(e).orElse(null)));
+            TestUtils.takeScrenshot();
             throw e;
         } finally {
             getLifecycle().stopStep(uuid);
