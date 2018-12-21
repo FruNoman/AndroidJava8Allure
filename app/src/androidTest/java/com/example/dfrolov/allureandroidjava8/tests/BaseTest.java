@@ -137,7 +137,7 @@ public class BaseTest {
         });
     }
 
-    @Attachment(value = "LOGCAT", type = "text/plain")
+    @Attachment(value = "LOGCAT", type = "text/plain",fileExtension="log")
     public static byte[]saveLog(String path) throws IOException {
         File file = new File(path);
         return Files.readAllBytes(file.toPath());
@@ -151,7 +151,9 @@ public class BaseTest {
             String command = "logcat -d *:D -f"+filename.getAbsolutePath();
             Runtime.getRuntime().exec(command).waitFor();
             saveLog(filename.getAbsolutePath());
-            filename.deleteOnExit();
+            filename.delete();
+            command = "rm "+filename.getAbsolutePath();
+            Runtime.getRuntime().exec(command).waitFor();
 
         } catch (Exception ex) {
         }
