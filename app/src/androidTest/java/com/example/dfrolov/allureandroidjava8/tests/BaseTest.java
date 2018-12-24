@@ -110,9 +110,9 @@ public class BaseTest {
     }
 
     @Step("Get airplane mode")
-    public static boolean getAirplaneMode() {
-        String mode =  Settings.Global.getString(appContext.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON);
-        if(mode.equals("1")){
+    public static boolean getAirplaneMode() throws Settings.SettingNotFoundException {
+        int mode =  Settings.Global.getInt(appContext.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON);
+        if(mode == 1){
             Log.i("Base", "Get airplane mode true");
             return true;
         }else {
@@ -125,6 +125,8 @@ public class BaseTest {
     public void setAirPlaneMode(boolean airplaneMode) throws IOException {
         int mode = airplaneMode ? 1 : 0;
         mDevice.executeShellCommand("settings put global airplane_mode_on " + mode);
+        mDevice.executeShellCommand("su root am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true");
+
         Log.i("Base", "Set airplane mode " + airplaneMode);
     }
 

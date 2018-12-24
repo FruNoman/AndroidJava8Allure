@@ -92,7 +92,6 @@ dependencies {
 
 
 task downloadMediaSamplesToDevice {
-
     println("Choose device $System.env.ANDROID_SERIAL")
     println("Set android home $System.env.ANDROID_HOME")
     println("Set java home $System.env.JAVA_HOME")

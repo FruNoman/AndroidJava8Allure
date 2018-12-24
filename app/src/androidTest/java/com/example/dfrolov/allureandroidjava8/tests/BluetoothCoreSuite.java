@@ -14,6 +14,7 @@ import android.util.Log;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.RenesasRunner;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Description;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Epic;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Issue;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Link;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Severity;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.SeverityLevel;
@@ -89,6 +90,7 @@ public class BluetoothCoreSuite extends BaseTest {
         defaultBluetoothName = adapter.setDefultName();
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter ON/OFF test")
@@ -103,6 +105,7 @@ public class BluetoothCoreSuite extends BaseTest {
         Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, adapter.getState());
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter switching many time ON/OFF test")
@@ -121,7 +124,7 @@ public class BluetoothCoreSuite extends BaseTest {
         }
     }
 
-
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter short time ON test")
@@ -137,6 +140,7 @@ public class BluetoothCoreSuite extends BaseTest {
         }
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter change name test")
@@ -151,6 +155,7 @@ public class BluetoothCoreSuite extends BaseTest {
                 actualName);
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter check device empty name")
@@ -162,6 +167,7 @@ public class BluetoothCoreSuite extends BaseTest {
         Assert.assertNotEquals("Bluetooth adapter unexpected name " + unexpectedName, unexpectedName, actualName);
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter change name to max length test")
@@ -179,6 +185,7 @@ public class BluetoothCoreSuite extends BaseTest {
                 actualName.length());
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter change name to different languages test")
@@ -195,6 +202,7 @@ public class BluetoothCoreSuite extends BaseTest {
         }
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter ON get remote device test")
@@ -206,6 +214,7 @@ public class BluetoothCoreSuite extends BaseTest {
         Assert.assertEquals("Unexpected bluetooth device address", "00:11:22:AA:BB:CC", device.getAddress());
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter OFF get remote device test")
@@ -220,6 +229,7 @@ public class BluetoothCoreSuite extends BaseTest {
         Assert.assertEquals("Unexpected bluetooth device address", "00:11:22:AA:BB:CC", device.getAddress());
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter scanning test")
@@ -234,6 +244,7 @@ public class BluetoothCoreSuite extends BaseTest {
                 scanDevices.size() > 0);
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter airplane mode test")
@@ -250,6 +261,7 @@ public class BluetoothCoreSuite extends BaseTest {
         Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, adapter.getState());
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter airplane mode switching many times test")
@@ -270,6 +282,7 @@ public class BluetoothCoreSuite extends BaseTest {
         }
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
     @Description(BluetoothAdapterAllure.DESCRIPTION)
     @DisplayName("Bluetooth adapter force enable airplane mode test")
@@ -294,5 +307,6 @@ public class BluetoothCoreSuite extends BaseTest {
     @After
     public void afterBluetoothTests() throws IOException {
         adapter.disable();
+        setAirPlaneMode(false);
     }
 }

@@ -2,19 +2,19 @@ package com.example.dfrolov.allureandroidjava8.tests;
 
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.test.rule.GrantPermissionRule;
 
 import com.example.dfrolov.allureandroidjava8.allure_implementation.RenesasRunner;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Description;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Epic;
+import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Issue;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Link;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Severity;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.SeverityLevel;
@@ -31,14 +31,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,7 +65,8 @@ public class WifiCoreSuite extends BaseTest {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.READ_PHONE_STATE,
-                    Manifest.permission.INTERNET);
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.WRITE_SECURE_SETTINGS);
 
 
     @Before
@@ -85,7 +80,9 @@ public class WifiCoreSuite extends BaseTest {
         configNetworks.stream().filter(Objects::nonNull).forEach((network) -> adapter.removeNetwork(network.networkId));
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
     @DisplayName("Wifi adapter ON/OFF test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -98,24 +95,28 @@ public class WifiCoreSuite extends BaseTest {
         Assert.assertEquals("Unexpected bluetooth adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
     }
 
-    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
-    @DisplayName("Wifi adapter switching many times ON/OFF test")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void wifi_2_SwitchingManyTimesOnOffTest() throws InterruptedException {
-        int switchingCount = 0;
-        while (switchingCount < 30) {
-            adapter.setWifiEnabled(false);
-            adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
-            Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
-            adapter.setWifiEnabled(true);
-            adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
-            Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
-            switchingCount++;
-        }
-    }
+//    @Issue("JIRA EXAMPLE ISSUE")
+//    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+//    @Description(WifiAdapterAllure.DESCRIPTION)
+//    @DisplayName("Wifi adapter switching many times ON/OFF test")
+//    @Severity(SeverityLevel.BLOCKER)
+//    @Test
+//    public void wifi_2_SwitchingManyTimesOnOffTest() throws InterruptedException {
+//        int switchingCount = 0;
+//        while (switchingCount < 30) {
+//            adapter.setWifiEnabled(false);
+//            adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+//            Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
+//            adapter.setWifiEnabled(true);
+//            adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
+//            Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+//            switchingCount++;
+//        }
+//    }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
     @DisplayName("Wifi adapter short time ON test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -128,7 +129,9 @@ public class WifiCoreSuite extends BaseTest {
         }
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
     @DisplayName("Wifi adapter connect to password network")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -140,7 +143,9 @@ public class WifiCoreSuite extends BaseTest {
         Assert.assertEquals("Unexpected wifi connected state",NetworkInfo.DetailedState.CONNECTED,adapter.getDetailedState());
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
     @DisplayName("Wifi adapter connect to open network test")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -153,8 +158,27 @@ public class WifiCoreSuite extends BaseTest {
     }
 
 
-
+    @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
+    @DisplayName("Wifi adapter airplane mode test")
+    @Severity(SeverityLevel.CRITICAL)
+    @Test
+    public void wifi_6_AirplaneModeTest() throws Exception {
+        setAirPlaneMode(true);
+        adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+        Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected bluetooth adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
+        setAirPlaneMode(false);
+        adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
+        Assert.assertFalse("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected bluetooth adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+
+    }
+
+    @Issue("JIRA EXAMPLE ISSUE")
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
     @DisplayName("Wifi adapter downloadFile small file test")
     @Severity(SeverityLevel.NORMAL)
     @Test
@@ -170,8 +194,9 @@ public class WifiCoreSuite extends BaseTest {
 
 
     @After
-    public void afterWifiTests() throws InterruptedException {
+    public void afterWifiTests() throws InterruptedException, IOException {
         adapter.setWifiEnabled(false);
         adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+        setAirPlaneMode(false);
     }
 }

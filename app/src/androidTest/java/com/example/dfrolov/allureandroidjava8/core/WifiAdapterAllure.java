@@ -164,7 +164,7 @@ public class WifiAdapterAllure extends BaseAdapterAllure {
         boolean success = true;
         int count = 0;
         while (adapter.getWifiState() != state) {
-            if (count > 10) {
+            if (count > 12) {
                 success = false;
                 break;
             }
