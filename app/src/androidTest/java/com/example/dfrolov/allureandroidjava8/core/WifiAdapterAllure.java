@@ -145,7 +145,7 @@ public class WifiAdapterAllure extends BaseAdapterAllure {
         NetworkInfo.DetailedState currentState = NetworkInfo.DetailedState.FAILED;
         while (currentState != state) {
             SystemClock.sleep(1000);
-            if (System.currentTimeMillis() - startTime > 8000) {
+            if (System.currentTimeMillis() - startTime > 10000) {
                 success = false;
                 break;
             }
