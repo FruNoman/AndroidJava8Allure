@@ -19,6 +19,7 @@ import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Link;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.Severity;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.allure.SeverityLevel;
 import com.example.dfrolov.allureandroidjava8.allure_implementation.junit4.DisplayName;
+import com.example.dfrolov.allureandroidjava8.core.BluetoothAdapterAllure;
 import com.example.dfrolov.allureandroidjava8.core.WifiAdapterAllure;
 
 
@@ -236,7 +237,6 @@ public class WifiCoreSuite extends BaseTest {
         Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
         adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
         Assert.assertEquals("Unexpected wifi connected state",NetworkInfo.DetailedState.CONNECTED,adapter.getDetailedState());
-
     }
 
     @Issue("JIRA EXAMPLE ISSUE")
@@ -253,6 +253,56 @@ public class WifiCoreSuite extends BaseTest {
         File file = adapter.downloadFile(smallFileURL);
         Assert.assertTrue("File " + file.getPath() + " not downloads", file.exists());
         file.delete();
+    }
+
+    @Issue("JIRA EXAMPLE ISSUE")
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
+    @DisplayName("Wifi adapter with bluetooth adapter ON/OFF test")
+    @Severity(SeverityLevel.CRITICAL)
+    @Test
+    public void wifi_11_BluetoothAdapterOnOffTest() throws Exception {
+        BluetoothAdapter bleAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapterAllure bleAllureadapter = new BluetoothAdapterAllure(bleAdapter);
+        bleAllureadapter.bluetoothForceEnable();
+        bleAllureadapter.isAvailable();
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, bleAllureadapter.getState());
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+        bleAllureadapter.disable();
+        bleAllureadapter.waitForState(BluetoothAdapter.STATE_OFF);
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, bleAllureadapter.getState());
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+        adapter.setWifiEnabled(false);
+        adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, bleAllureadapter.getState());
+    }
+
+    @Issue("JIRA EXAMPLE ISSUE")
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
+    @DisplayName("Wifi adapter with bluetooth adapter airplane mode test")
+    @Severity(SeverityLevel.CRITICAL)
+    @Test
+    public void wifi_12_BluetoothAdapterAirplaneModeTest() throws Exception {
+        BluetoothAdapter bleAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapterAllure bleAllureadapter = new BluetoothAdapterAllure(bleAdapter);
+        bleAllureadapter.bluetoothForceEnable();
+        bleAllureadapter.isAvailable();
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, bleAllureadapter.getState());
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+        setAirPlaneMode(true);
+        adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+        bleAllureadapter.waitForState(BluetoothAdapter.STATE_OFF);
+        Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, bleAllureadapter.getState());
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
+        setAirPlaneMode(false);
+        adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
+        bleAllureadapter.waitForState(BluetoothAdapter.STATE_ON);
+        Assert.assertFalse("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, bleAllureadapter.getState());
     }
 
 
