@@ -124,11 +124,11 @@ public class BaseTest {
     @Step("Set airplane mode")
     public void setAirPlaneMode(boolean airplaneMode) throws IOException {
         int mode = airplaneMode ? 1 : 0;
-//        mDevice.executeShellCommand("settings put global airplane_mode_on " + mode);
+        mDevice.executeShellCommand("settings put global airplane_mode_on " + mode);
 //        mDevice.executeShellCommand("su root am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true");
-        Settings.Global.putInt(
-                appContext.getContentResolver(),
-                Settings.Global.AIRPLANE_MODE_ON, mode);
+//        Settings.Global.putInt(
+//                appContext.getContentResolver(),
+//                Settings.Global.AIRPLANE_MODE_ON, mode);
         Log.i("Base", "Set airplane mode " + airplaneMode);
     }
 
