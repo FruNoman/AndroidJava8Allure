@@ -76,8 +76,7 @@ public class BluetoothCoreSuite extends BaseTest {
                     Manifest.permission.INTERNET,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_LOGS,
-                    Manifest.permission.WRITE_SECURE_SETTINGS);
+                    Manifest.permission.READ_LOGS);
 
 
     @Before

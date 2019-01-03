@@ -159,85 +159,85 @@ public class WifiCoreSuite extends BaseTest {
     }
 
 
-//    @Issue("JIRA EXAMPLE ISSUE")
-//    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
-//    @Description(WifiAdapterAllure.DESCRIPTION)
-//    @DisplayName("Wifi adapter airplane mode test")
-//    @Severity(SeverityLevel.CRITICAL)
-//    @Test
-//    public void wifi_6_AirplaneModeTest() throws Exception {
-//        setAirPlaneMode(true);
-//        adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
-//        Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
-//        Assert.assertEquals("Unexpected bluetooth adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
-//        setAirPlaneMode(false);
-//        adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
-//        Assert.assertFalse("Unexpected airplane mpde",getAirplaneMode());
-//        Assert.assertEquals("Unexpected bluetooth adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
-//    }
-//
-//    @Issue("JIRA EXAMPLE ISSUE")
-//    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
-//    @Description(WifiAdapterAllure.DESCRIPTION)
-//    @DisplayName("Wifi adapter switch many time airplane mode test")
-//    @Severity(SeverityLevel.CRITICAL)
-//    @Test
-//    public void wifi_7_SwitchManyTimeAirplaneModeTest() throws Exception {
-//        int switchingCount = 0;
-//        while (switchingCount < 30) {
-//            setAirPlaneMode(true);
-//            adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
-//            Assert.assertTrue("Unexpected airplane mpde", getAirplaneMode());
-//            Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
-//            setAirPlaneMode(false);
-//            adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
-//            Assert.assertFalse("Unexpected airplane mpde", getAirplaneMode());
-//            Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
-//            switchingCount++;
-//        }
-//    }
-//
-//    @Issue("JIRA EXAMPLE ISSUE")
-//    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
-//    @Description(WifiAdapterAllure.DESCRIPTION)
-//    @DisplayName("Wifi adapter force enable airplane mode test")
-//    @Severity(SeverityLevel.CRITICAL)
-//    @Test
-//    public void wifi_8_ForceEnableAirplaneModeTest() throws Exception {
-//        setAirPlaneMode(true);
-//        adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
-//        Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
-//        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
-//        adapter.setWifiEnabled(true);
-//        adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
-//        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
-//    }
-//
-//    @Issue("JIRA EXAMPLE ISSUE")
-//    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
-//    @Description(WifiAdapterAllure.DESCRIPTION)
-//    @DisplayName("Wifi adapter auto connect to network airplane mode test")
-//    @Severity(SeverityLevel.CRITICAL)
-//    @Test
-//    public void wifi_9_ConnectNetworkAirplaneModeTest() throws Exception {
-//        wifiConfig = adapter.getWPA2config(NETWORK_SSID, NETWORK_PASS);
-//        int networkId = adapter.addNetwork(wifiConfig);
-//        adapter.enableNetwork(networkId, true);
-//        adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
-//        Assert.assertEquals("Unexpected wifi connected state",NetworkInfo.DetailedState.CONNECTED,adapter.getDetailedState());
-//        setAirPlaneMode(true);
-//        adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
-//        Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
-//        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
-//        adapter.waitState(NetworkInfo.DetailedState.FAILED);
-//        Assert.assertEquals("Unexpected wifi connected state",NetworkInfo.DetailedState.FAILED,adapter.getDetailedState());
-//        setAirPlaneMode(false);
-//        adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
-//        Assert.assertFalse("Unexpected airplane mpde",getAirplaneMode());
-//        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
-//        adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
-//        Assert.assertEquals("Unexpected wifi connected state",NetworkInfo.DetailedState.CONNECTED,adapter.getDetailedState());
-//    }
+    @Issue("JIRA EXAMPLE ISSUE")
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
+    @DisplayName("Wifi adapter airplane mode test")
+    @Severity(SeverityLevel.CRITICAL)
+    @Test
+    public void wifi_6_AirplaneModeTest() throws Exception {
+        setAirPlaneMode(true);
+        adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+        Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected bluetooth adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
+        setAirPlaneMode(false);
+        adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
+        Assert.assertFalse("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected bluetooth adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+    }
+
+    @Issue("JIRA EXAMPLE ISSUE")
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
+    @DisplayName("Wifi adapter switch many time airplane mode test")
+    @Severity(SeverityLevel.CRITICAL)
+    @Test
+    public void wifi_7_SwitchManyTimeAirplaneModeTest() throws Exception {
+        int switchingCount = 0;
+        while (switchingCount < 30) {
+            setAirPlaneMode(true);
+            adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+            Assert.assertTrue("Unexpected airplane mpde", getAirplaneMode());
+            Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
+            setAirPlaneMode(false);
+            adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
+            Assert.assertFalse("Unexpected airplane mpde", getAirplaneMode());
+            Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+            switchingCount++;
+        }
+    }
+
+    @Issue("JIRA EXAMPLE ISSUE")
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
+    @DisplayName("Wifi adapter force enable airplane mode test")
+    @Severity(SeverityLevel.CRITICAL)
+    @Test
+    public void wifi_8_ForceEnableAirplaneModeTest() throws Exception {
+        setAirPlaneMode(true);
+        adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+        Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
+        adapter.setWifiEnabled(true);
+        adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+    }
+
+    @Issue("JIRA EXAMPLE ISSUE")
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
+    @DisplayName("Wifi adapter auto connect to network airplane mode test")
+    @Severity(SeverityLevel.CRITICAL)
+    @Test
+    public void wifi_9_ConnectNetworkAirplaneModeTest() throws Exception {
+        wifiConfig = adapter.getWPA2config(NETWORK_SSID, NETWORK_PASS);
+        int networkId = adapter.addNetwork(wifiConfig);
+        adapter.enableNetwork(networkId, true);
+        adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
+        Assert.assertEquals("Unexpected wifi connected state",NetworkInfo.DetailedState.CONNECTED,adapter.getDetailedState());
+        setAirPlaneMode(true);
+        adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+        Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
+        adapter.waitState(NetworkInfo.DetailedState.FAILED);
+        Assert.assertEquals("Unexpected wifi connected state",NetworkInfo.DetailedState.FAILED,adapter.getDetailedState());
+        setAirPlaneMode(false);
+        adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
+        Assert.assertFalse("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+        adapter.waitState(NetworkInfo.DetailedState.CONNECTED);
+        Assert.assertEquals("Unexpected wifi connected state",NetworkInfo.DetailedState.CONNECTED,adapter.getDetailedState());
+    }
 
     @Issue("JIRA EXAMPLE ISSUE")
     @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
@@ -278,10 +278,38 @@ public class WifiCoreSuite extends BaseTest {
         Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, bleAllureadapter.getState());
     }
 
+    @Issue("JIRA EXAMPLE ISSUE")
+    @Link(name = "RNSS-4045 EXAMPLE", url = "https://embedded.globallogic.com.ua/testlink/")
+    @Description(WifiAdapterAllure.DESCRIPTION)
+    @DisplayName("Wifi adapter with bluetooth adapter airplane mode test")
+    @Severity(SeverityLevel.CRITICAL)
+    @Test
+    public void wifi_12_BluetoothAdapterAirplaneModeTest() throws Exception {
+        BluetoothAdapter bleAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapterAllure bleAllureadapter = new BluetoothAdapterAllure(bleAdapter);
+        bleAllureadapter.bluetoothForceEnable();
+        bleAllureadapter.isAvailable();
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, bleAllureadapter.getState());
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+        setAirPlaneMode(true);
+        adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+        bleAllureadapter.waitForState(BluetoothAdapter.STATE_OFF);
+        Assert.assertTrue("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_OFF, bleAllureadapter.getState());
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_DISABLED, adapter.getWifiState());
+        setAirPlaneMode(false);
+        adapter.waitState(WifiManager.WIFI_STATE_ENABLED);
+        bleAllureadapter.waitForState(BluetoothAdapter.STATE_ON);
+        Assert.assertFalse("Unexpected airplane mpde",getAirplaneMode());
+        Assert.assertEquals("Unexpected wifi adapter state", WifiManager.WIFI_STATE_ENABLED, adapter.getWifiState());
+        Assert.assertEquals("Unexpected bluetooth adapter state", BluetoothAdapter.STATE_ON, bleAllureadapter.getState());
+    }
+
 
     @After
     public void afterWifiTests() throws InterruptedException, IOException {
         adapter.setWifiEnabled(false);
         adapter.waitState(WifiManager.WIFI_STATE_DISABLED);
+        setAirPlaneMode(false);
     }
 }
