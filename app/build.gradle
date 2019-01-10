@@ -25,7 +25,7 @@ buildscript {
         classpath 'com.google.api-client:google-api-client:1.25.0'
         classpath 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
         classpath 'org.rauschig:jarchivelib:0.8.0'
-        classpath "io.qameta.allure:allure-gradle:2.3"
+        classpath "io.qameta.allure:allure-gradle:2.5"
 
     }
 }
@@ -120,9 +120,7 @@ task downloadMediaSamplesToDevice {
     }
 }
 
-task runUnitTests(dependsOn: [':app:testDebugUnitTest']) {
-    description 'Run all unit tests'
-}
+
 
 task runAcceptanceTests(dependsOn: [':app:connectedAndroidTest']) {
     description 'Run all acceptance tests.'
@@ -177,8 +175,6 @@ media.finalizedBy "videoTest"
 
 task jenkins
 
-runUnitTests.dependsOn runAcceptanceTests
-
 jenkins.dependsOn "assembleDebug"
 
 jenkins.finalizedBy "runAcceptanceTests"
@@ -188,6 +184,4 @@ gradle.buildFinished {
     println("After connectedInstrumentTest pull allure-results to " + PROJECT_PACKAGE + "/app/build")
     final result = ["adb", "pull", DEVICE_ALLURE_RESULTS_PATH, PROJECT_PACKAGE + "/app/build"].execute().text
     println(result)
-    println("Generate report")
-    [ALLURE,"generate",PROJECT_PACKAGE + "/app/build/allure-results"].execute().text
 }
