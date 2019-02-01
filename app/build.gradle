@@ -4,7 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 String PROJECT_PACKAGE = (System.getProperty("user.dir"))
 String RESOURCES_PATH = (PROJECT_PACKAGE + "/app/src/test/resources")
-String GOOGLE_DRIVE_ID = "1Li_02Xwu9vgI5TKVafbVHs0Q5d6hbFao"
+String GOOGLE_DRIVE_ID = "1Sh5z8zXRzd3hyrH3B7Yn7wIKi5UsTFVf"
 String DEVICE_SAMPLES_PATH = "/sdcard/samples/"
 String DEVICE_ALLURE_RESULTS_PATH = "/sdcard/allure-results"
 String ALLURE = RESOURCES_PATH+"/allure/bin/allure"
