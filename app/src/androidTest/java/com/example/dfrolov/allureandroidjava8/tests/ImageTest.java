@@ -227,4 +227,5 @@ public class ImageTest extends BaseTest {
         Assert.assertTrue("imageView size incorrect", (afterH > 100 && afterW > 100));
     }
 
+
 }

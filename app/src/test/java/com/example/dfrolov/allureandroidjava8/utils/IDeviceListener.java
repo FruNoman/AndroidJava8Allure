@@ -6,14 +6,12 @@ import com.android.ddmlib.IDevice;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class IDeviceListener implements AndroidDebugBridge.IDeviceChangeListener {
     private List<IDevice> deviceList;
 
     public IDeviceListener() {
         this.deviceList = new ArrayList<>();
     }
-
 
     @Override
     public void deviceConnected(IDevice device) {
@@ -30,11 +28,10 @@ public class IDeviceListener implements AndroidDebugBridge.IDeviceChangeListener
 
     }
 
-    public boolean waitForDevice(String udid) throws InterruptedException {
-
-        return true;
-
+    public List<IDevice> waitForDevice() throws InterruptedException {
+        while (deviceList.size()<=0){
+            Thread.sleep(1000);
+        }
+        return deviceList;
     }
-
-
 }

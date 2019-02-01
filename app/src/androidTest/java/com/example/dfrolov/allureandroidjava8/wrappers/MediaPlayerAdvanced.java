@@ -89,8 +89,8 @@ public class MediaPlayerAdvanced implements
 
     public MediaPlayer playSample(MediaPlayer mediaPlayer, File sample, SurfaceView view) throws IOException {
         mediaPlayer.setOnCompletionListener(this);
-        mediaPlayer.setOnErrorListener(this);
-        mediaPlayer.setOnInfoListener(this);
+//        mediaPlayer.setOnErrorListener(this);
+//        mediaPlayer.setOnInfoListener(this);
         mediaPlayer.setOnSeekCompleteListener(this);
 
         mediaPlayer.setDisplay(view.getHolder());
