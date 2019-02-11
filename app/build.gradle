@@ -99,23 +99,24 @@ task downloadMediaSamplesToDevice {
     File tarFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples.tar")
 
     String clearAllure = ["adb", "shell", "rm", "-rf", DEVICE_ALLURE_RESULTS_PATH].execute().text
-    println("Clear " + DEVICE_ALLURE_RESULTS_PATH + " directory")
+    println("Clear allure-results directory"+clearAllure)
     String devieSamples = ["adb", "shell", "ls", DEVICE_SAMPLES_PATH].execute().text
-    println("Check media samples on device " + devieSamples)
+    println("Check media samples on device..." )
     if (devieSamples.contains("No such file or directory") || devieSamples.equals("")) {
-        println("Check media samples on PC: " + samplesFile.exists())
+        println("NO samples on device")
+        println("Check media samples on PC...")
         if (!samplesFile.exists()) {
+            println("NO samples on PC")
             samplesFile.mkdir()
-            println("Download media samples from google disk...")
-            final downloadResult = ['curl','-L','--user','dmytro.a.frolov:Froyman88_!','https://automotive.globallogic.com/jenkins/userContent/upload.tar','-o',tarFile].execute().text
-            println(downloadResult)
-            final unpack = ['tar','-xf',tarFile,'-C',samplesFile].execute().text
-            println(unpack)
+            println("Download media samples...")
+            def downloadResult = ['curl','-i','-L','--user','dmytro.a.frolov:Froyman88_!','https://automotive.globallogic.com/jenkins/userContent/upload.tar','-o',tarFile].execute().text
+            println("Download: "+downloadResult)
+            def unpack = ['tar','-xf',tarFile,'-C',samplesFile].execute().text
+            println("Unpack samples: "+unpack)
             tarFile.delete()
         }
-
-        String result = ["adb","push", samplesFile.getAbsolutePath(), DEVICE_SAMPLES_PATH].execute().text
-        println(result)
+        def result = ["adb","push", samplesFile.getAbsolutePath(), DEVICE_SAMPLES_PATH].execute().text
+        println("Push samples to device: "+result)
 
     }
 }
