@@ -21,6 +21,7 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver {
     private static int wifiState;
     private NetworkInfo.DetailedState wifiConnectState;
 
+    
 
     @Override
     public void onReceive(Context context, Intent intent) {
