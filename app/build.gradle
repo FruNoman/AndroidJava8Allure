@@ -109,7 +109,7 @@ task downloadMediaSamplesToDevice {
             println("NO samples on PC")
             samplesFile.mkdir()
             println("Download media samples...")
-            def downloadResult = ['curl','-i','-L','--user','dmytro.a.frolov:Froyman88_!','https://automotive.globallogic.com/jenkins/userContent/upload.tar','-o',tarFile].execute().text
+            def downloadResult = ['curl','-L','--user','dmytro.a.frolov:Froyman88_!','https://automotive.globallogic.com/jenkins/userContent/upload.tar','-o',tarFile].execute().text
             println("Download: "+downloadResult)
             def unpack = ['tar','-xf',tarFile,'-C',samplesFile].execute().text
             println("Unpack samples: "+unpack)
