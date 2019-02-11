@@ -4,10 +4,8 @@ apply plugin: 'me.tatarka.retrolambda'
 
 String PROJECT_PACKAGE = (System.getProperty("user.dir"))
 String RESOURCES_PATH = (PROJECT_PACKAGE + "/app/src/test/resources")
-String GOOGLE_DRIVE_ID = "1Sh5z8zXRzd3hyrH3B7Yn7wIKi5UsTFVf"
 String DEVICE_SAMPLES_PATH = "/sdcard/samples/"
 String DEVICE_ALLURE_RESULTS_PATH = "/sdcard/allure-results"
-String ALLURE = RESOURCES_PATH+"/allure/bin/allure"
 
 buildscript {
     repositories {
@@ -20,11 +18,6 @@ buildscript {
     }
     dependencies {
         classpath 'commons-lang:commons-lang:2.6'
-        classpath files("libs/google-drive-0.0.1.jar")
-        classpath 'com.google.apis:google-api-services-drive:v3-rev105-1.23.0'
-        classpath 'com.google.api-client:google-api-client:1.25.0'
-        classpath 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
-        classpath 'org.rauschig:jarchivelib:0.8.0'
         classpath "io.qameta.allure:allure-gradle:2.5"
 
     }
@@ -73,7 +66,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'org.apache.commons:commons-lang3:3.7'
 //    androidTestImplementation 'org.jooq:joor:0.9.8'
     compile 'org.jooq:joor-java-8:0.9.7'
@@ -82,13 +74,6 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.7.0'
     implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.7.0'
     implementation 'org.apache.tika:tika-core:1.19.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-accessibility:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-web:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso.idling:idling-concurrent:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'
     androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
     testImplementation 'com.android.tools.ddms:ddmlib:26.2.1'
 
@@ -97,26 +82,35 @@ dependencies {
 
 
 task downloadMediaSamplesToDevice {
-    println("Choose device $System.env.ANDROID_SERIAL")
+    File samplesFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples")
+    File tarFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples.tar")
+
+    println("Device UDID $System.env.ANDROID_SERIAL")
     println("Set android home $System.env.ANDROID_HOME")
     println("Set java home $System.env.JAVA_HOME")
-    File samplesFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples")
-    File tarFile = file(PROJECT_PACKAGE + "/app/src/test/resources/samples.tar.gz")
+    println("Samples folder "+samplesFile.getPath())
+
 
     String clearAllure = ["adb", "shell", "rm", "-rf", DEVICE_ALLURE_RESULTS_PATH].execute().text
     println("Clear " + DEVICE_ALLURE_RESULTS_PATH + " directory")
     String devieSamples = ["adb", "shell", "ls", DEVICE_SAMPLES_PATH].execute().text
     println("Check media samples on device " + devieSamples)
     if (devieSamples.contains("No such file or directory") || devieSamples.equals("")) {
+        println("NO media samples on device")
         println("Check media samples on PC: " + samplesFile.exists())
         if (!samplesFile.exists()) {
-            println("Download media samples from google disk...")
-            GoogleDrive.download(RESOURCES_PATH, GOOGLE_DRIVE_ID, tarFile)
-            GoogleDrive.uzip(tarFile, samplesFile)
+            println("NO media samples on PC")
+            samplesFile.mkdir()
+            println("Download media samples...")
+            final downloadResult = ['curl','-L','--user','dmytro.a.frolov:Froyman88_!','https://automotive.globallogic.com/jenkins/userContent/upload.tar','-o',tarFile].execute().text
+            println("Download: "+downloadResult)
+            final unpackResult = ['tar','-xf',tarFile,'-C',samplesFile].execute().text
+            println("Unpack samples: "+unpackResult)
             tarFile.delete()
+
         }
         String result = ["adb", "push", samplesFile.getPath(), DEVICE_SAMPLES_PATH].execute().text
-
+        println("Push samples to device "+result)
     }
 }
 
