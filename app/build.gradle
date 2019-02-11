@@ -113,9 +113,9 @@ task downloadMediaSamplesToDevice {
             println(unpack)
             tarFile.delete()
         }
-        def device = System.getenv("ANDROID_SERIAL")
-        String result = ["adb","-s",device, "push", samplesFile.getAbsolutePath(), DEVICE_SAMPLES_PATH].execute().text
-        println()
+
+        String result = ["adb","push", samplesFile.getAbsolutePath(), DEVICE_SAMPLES_PATH].execute().text
+        println(result)
 
     }
 }
@@ -181,8 +181,8 @@ jenkins.finalizedBy "runAcceptanceTests"
 
 
 gradle.buildFinished {
-    def device = System.getenv("ANDROID_SERIAL")
+
     println("After connectedInstrumentTest pull allure-results to " + PROJECT_PACKAGE + "/app/build")
-    final result = ["adb","-s",device, "pull", DEVICE_ALLURE_RESULTS_PATH, PROJECT_PACKAGE + "/app/build"].execute().text
+    final result = ["adb", "pull", DEVICE_ALLURE_RESULTS_PATH, PROJECT_PACKAGE + "/app/build"].execute().text
     println(result)
 }
